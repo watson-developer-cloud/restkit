@@ -23,9 +23,31 @@ For more information on IBM Watson services, visit the [IBM Watson homepage](htt
 
 ## Installation
 
-### Dependency Management
+RestKit can be installed with [Cocoapods](http://cocoapods.org/), [Carthage](https://github.com/Carthage/Carthage), or [Swift Package Manager](https://swift.org/package-manager/).
 
-We recommend using [Carthage](https://github.com/Carthage/Carthage) to manage dependencies and build RestKit for your application.
+### Cocoapods
+
+You can install Cocoapods with [RubyGems](https://rubygems.org/):
+
+```bash
+$ sudo gem install cocoapods
+```
+
+If your project does not yet have a Podfile, use the `pod init` command in the root directory of your project. To install RestKit using Cocoapods, add the following to your Podfile (substituting `MyApp with the name of your app). 
+
+```ruby
+use_frameworks!
+
+target 'MyApp' do
+    pod 'RestKit', '~> 1.0'
+end
+```
+
+Then run the `pod install` command, and open the generated `.xcworkspace` file. To update to a newer release of RestKit, use `pod update RestKit`.
+
+For more information on using Cocoapods, refer to the [Cocoapods Guides](https://guides.cocoapods.org/using/index.html).
+
+### Carthage
 
 You can install Carthage with [Homebrew](http://brew.sh/):
 
@@ -34,19 +56,11 @@ $ brew update
 $ brew install carthage
 ```
 
-Then, navigate to the root directory of your project (where your .xcodeproj file is located) and create an empty `Cartfile` there:
-
-```bash
-$ touch Cartfile
-```
-
-To use the RestKit in your application, specify it in your `Cartfile`:
+If your project does not have a Cartfile yet, use the `touch Cartfile` command in the root directory of your project. To install RestKit using Carthage, add the following to your Cartfile. 
 
 ```
-github "watson-developer-cloud/restkit"
+github "watson-developer-cloud/restkit" ~> 1.0
 ```
-
-In a production app, you may also want to specify a [version requirement](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#version-requirement).
 
 Then run the following command to build the dependencies and frameworks:
 
@@ -54,7 +68,7 @@ Then run the following command to build the dependencies and frameworks:
 $ carthage update --platform iOS
 ```
 
-Finally, drag-and-drop the built `RestKit.framework` into your Xcode project and import it in the source files that require it.
+Follow the remaining Carthage installation instructions [here](https://github.com/Carthage/Carthage#getting-started). Make sure to drag-and-drop the built `RestKit.framework` into your Xcode project and import it in the source files that require it.
 
 ### Swift Package Manager
 
