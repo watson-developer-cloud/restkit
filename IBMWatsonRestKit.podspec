@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 
   s.module_name           = 'RestKit'
   s.ios.deployment_target = '8.0'
-  s.source                = { :git => 'https://github.com/watson-developer-cloud/restkit.git', :tag => "v#{s.version.to_s}" }
+  s.source                = { :git => 'https://github.com/watson-developer-cloud/restkit.git', :tag => s.version.to_s }
   
   s.source_files          = 'Sources/**/*.swift'
   s.swift_version         = '4.1'
