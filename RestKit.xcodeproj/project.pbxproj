@@ -10,6 +10,13 @@
 		92048D50212F49C8004FD822 /* RestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92048D46212F49C8004FD822 /* RestKit.framework */; };
 		92048D55212F49C8004FD822 /* RestKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D54212F49C8004FD822 /* RestKitTests.swift */; };
 		92048D57212F49C8004FD822 /* RestKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 92048D49212F49C8004FD822 /* RestKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		92048D69212F4C9D004FD822 /* RestRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D62212F4C9D004FD822 /* RestRequest.swift */; };
+		92048D6A212F4C9D004FD822 /* RestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D63212F4C9D004FD822 /* RestError.swift */; };
+		92048D6B212F4C9D004FD822 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D64212F4C9D004FD822 /* JSON.swift */; };
+		92048D6C212F4C9D004FD822 /* CodableExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D65212F4C9D004FD822 /* CodableExtensions.swift */; };
+		92048D6D212F4C9D004FD822 /* RestUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D66212F4C9D004FD822 /* RestUtilities.swift */; };
+		92048D6E212F4C9D004FD822 /* MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D67212F4C9D004FD822 /* MultipartFormData.swift */; };
+		92048D6F212F4C9D004FD822 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D68212F4C9D004FD822 /* Authentication.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +36,13 @@
 		92048D4F212F49C8004FD822 /* RestKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RestKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		92048D54212F49C8004FD822 /* RestKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestKitTests.swift; sourceTree = "<group>"; };
 		92048D56212F49C8004FD822 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		92048D62212F4C9D004FD822 /* RestRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestRequest.swift; sourceTree = "<group>"; };
+		92048D63212F4C9D004FD822 /* RestError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestError.swift; sourceTree = "<group>"; };
+		92048D64212F4C9D004FD822 /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSON.swift; sourceTree = "<group>"; };
+		92048D65212F4C9D004FD822 /* CodableExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodableExtensions.swift; sourceTree = "<group>"; };
+		92048D66212F4C9D004FD822 /* RestUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestUtilities.swift; sourceTree = "<group>"; };
+		92048D67212F4C9D004FD822 /* MultipartFormData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipartFormData.swift; sourceTree = "<group>"; };
+		92048D68212F4C9D004FD822 /* Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +85,13 @@
 		92048D48212F49C8004FD822 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				92048D68212F4C9D004FD822 /* Authentication.swift */,
+				92048D65212F4C9D004FD822 /* CodableExtensions.swift */,
+				92048D64212F4C9D004FD822 /* JSON.swift */,
+				92048D67212F4C9D004FD822 /* MultipartFormData.swift */,
+				92048D63212F4C9D004FD822 /* RestError.swift */,
+				92048D62212F4C9D004FD822 /* RestRequest.swift */,
+				92048D66212F4C9D004FD822 /* RestUtilities.swift */,
 				92048D60212F4B1F004FD822 /* Supporting Files */,
 			);
 			path = Source;
@@ -164,6 +185,7 @@
 				TargetAttributes = {
 					92048D45212F49C8004FD822 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 0940;
 					};
 					92048D4E212F49C8004FD822 = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -210,6 +232,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92048D6F212F4C9D004FD822 /* Authentication.swift in Sources */,
+				92048D6E212F4C9D004FD822 /* MultipartFormData.swift in Sources */,
+				92048D6C212F4C9D004FD822 /* CodableExtensions.swift in Sources */,
+				92048D6B212F4C9D004FD822 /* JSON.swift in Sources */,
+				92048D6A212F4C9D004FD822 /* RestError.swift in Sources */,
+				92048D6D212F4C9D004FD822 /* RestUtilities.swift in Sources */,
+				92048D69212F4C9D004FD822 /* RestRequest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,6 +384,7 @@
 		92048D5B212F49C8004FD822 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -372,6 +402,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.ibm.watson.developer-cloud.RestKit";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -380,6 +411,7 @@
 		92048D5C212F49C8004FD822 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -405,6 +437,7 @@
 		92048D5E212F49C8004FD822 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Tests/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -422,6 +455,7 @@
 		92048D5F212F49C8004FD822 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Tests/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
