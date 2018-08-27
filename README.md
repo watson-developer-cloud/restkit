@@ -33,7 +33,7 @@ You can install Cocoapods with [RubyGems](https://rubygems.org/):
 $ sudo gem install cocoapods
 ```
 
-If your project does not yet have a Podfile, use the `pod init` command in the root directory of your project. To install RestKit using Cocoapods, add the following to your Podfile (substituting `MyApp with the name of your app). 
+If your project does not yet have a Podfile, use the `pod init` command in the root directory of your project. To install RestKit using Cocoapods, add the following to your Podfile (substituting `MyApp` with the name of your app). 
 
 ```ruby
 use_frameworks!
