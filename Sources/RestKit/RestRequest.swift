@@ -22,7 +22,6 @@ public struct RestRequest {
 
     public static let userAgent: String = {
         let sdk = "watson-apis-swift-sdk"
-        let sdkVersion = "0.32.0"
 
         let operatingSystem: String = {
             #if os(iOS)
@@ -46,6 +45,10 @@ public struct RestRequest {
         }()
         return "\(sdk)/\(sdkVersion) \(operatingSystem)/\(operatingSystemVersion)"
     }()
+
+    /// The version of the IBM Watson Swift SDK that is being used
+    /// Must be assigned a value prior to making any requests to appear in the User-Agent header
+    public static var sdkVersion: String = "0.33.0"
 
     private let session: URLSession
     internal var authMethod: AuthenticationMethod
