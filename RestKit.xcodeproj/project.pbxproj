@@ -19,6 +19,7 @@
 		92048D8C212F5BEE004FD822 /* RestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D85212F5BEE004FD822 /* RestError.swift */; };
 		92048D8D212F5BEE004FD822 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D86212F5BEE004FD822 /* Authentication.swift */; };
 		92048D8E212F5BEE004FD822 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D87212F5BEE004FD822 /* JSON.swift */; };
+		92BF69BC213F4BD800FE6325 /* WatsonResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BF69BB213F4BD800FE6325 /* WatsonResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		92048D85212F5BEE004FD822 /* RestError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RestError.swift; path = RestKit/RestError.swift; sourceTree = "<group>"; };
 		92048D86212F5BEE004FD822 /* Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Authentication.swift; path = RestKit/Authentication.swift; sourceTree = "<group>"; };
 		92048D87212F5BEE004FD822 /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSON.swift; path = RestKit/JSON.swift; sourceTree = "<group>"; };
+		92BF69BB213F4BD800FE6325 /* WatsonResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = WatsonResponse.swift; path = RestKit/WatsonResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 				92048D85212F5BEE004FD822 /* RestError.swift */,
 				92048D81212F5BEE004FD822 /* RestRequest.swift */,
 				92048D84212F5BEE004FD822 /* RestUtilities.swift */,
+				92BF69BB213F4BD800FE6325 /* WatsonResponse.swift */,
 				92048D60212F4B1F004FD822 /* Supporting Files */,
 			);
 			path = Sources;
@@ -241,6 +244,7 @@
 			files = (
 				92048D8B212F5BEE004FD822 /* RestUtilities.swift in Sources */,
 				92048D8E212F5BEE004FD822 /* JSON.swift in Sources */,
+				92BF69BC213F4BD800FE6325 /* WatsonResponse.swift in Sources */,
 				92048D8C212F5BEE004FD822 /* RestError.swift in Sources */,
 				92048D89212F5BEE004FD822 /* MultipartFormData.swift in Sources */,
 				92048D88212F5BEE004FD822 /* RestRequest.swift in Sources */,
