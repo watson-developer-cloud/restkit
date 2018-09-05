@@ -20,7 +20,11 @@ import Foundation
 
 public struct RestRequest {
 
-    public static let userAgent: String = {
+    // TODO: For RestKit version 2.0, remove the setter. This should only be set by the Watson Swift SDK.
+    // This needs to stay until 2.0 because Carthage will cause it to break with Watson Swift SDK v0.33.
+    /// The "User-Agent" header that will be sent with every network request
+    /// This can include information such as the operating system and the SDK/framework calling this API
+    public static var userAgent: String = {
         let sdk = "watson-apis-swift-sdk"
 
         let operatingSystem: String = {
@@ -46,8 +50,7 @@ public struct RestRequest {
         return "\(sdk)/\(sdkVersion) \(operatingSystem)/\(operatingSystemVersion)"
     }()
 
-    /// The version of the IBM Watson Swift SDK that is being used
-    /// Must be assigned a value prior to making any requests to appear in the User-Agent header
+    // TODO: Remove this in RestKit version 2.0
     public static var sdkVersion: String = "0.33.0"
 
     private let session: URLSession
