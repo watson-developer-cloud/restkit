@@ -19,7 +19,7 @@
 import XCTest
 @testable import RestKit
 
-class RestKitTests: XCTestCase {
+class MultiPartFormDataTests: XCTestCase {
 
     static var allTests = [
         ("testSimpleFormData", testSimpleFormData),

@@ -52,14 +52,14 @@ public class MultipartFormData {
     }
 
     public func append(_ fileURL: URL, withName: String, mimeType: String? = nil) {
-        if let data = try? Data.init(contentsOf: fileURL) {
+        if let data = try? Data(contentsOf: fileURL) {
             let bodyPart = BodyPart(key: withName, data: data, mimeType: mimeType, fileName: fileURL.lastPathComponent)
             bodyParts.append(bodyPart)
         }
     }
 
     public func append(file fileURL: URL, withName: String, mimeType: String? = nil) throws {
-       if let data = try? Data.init(contentsOf: fileURL) {
+       if let data = try? Data(contentsOf: fileURL) {
             let bodyPart = BodyPart(key: withName, data: data, mimeType: mimeType, fileName: fileURL.lastPathComponent)
             bodyParts.append(bodyPart)
         } else {
