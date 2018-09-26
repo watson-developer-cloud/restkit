@@ -19,6 +19,8 @@
 		92048D8C212F5BEE004FD822 /* RestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D85212F5BEE004FD822 /* RestError.swift */; };
 		92048D8D212F5BEE004FD822 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D86212F5BEE004FD822 /* Authentication.swift */; };
 		92048D8E212F5BEE004FD822 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D87212F5BEE004FD822 /* JSON.swift */; };
+		CA542769215558740035F8B6 /* MultiPartFormDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA542768215558740035F8B6 /* MultiPartFormDataTests.swift */; };
+		CA54276D2155763E0035F8B6 /* TestData.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA54276B215574380035F8B6 /* TestData.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +49,8 @@
 		92048D85212F5BEE004FD822 /* RestError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RestError.swift; path = RestKit/RestError.swift; sourceTree = "<group>"; };
 		92048D86212F5BEE004FD822 /* Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Authentication.swift; path = RestKit/Authentication.swift; sourceTree = "<group>"; };
 		92048D87212F5BEE004FD822 /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSON.swift; path = RestKit/JSON.swift; sourceTree = "<group>"; };
+		CA542768215558740035F8B6 /* MultiPartFormDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MultiPartFormDataTests.swift; path = RestKitTests/MultiPartFormDataTests.swift; sourceTree = "<group>"; };
+		CA54276B215574380035F8B6 /* TestData.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestData.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +111,8 @@
 				92048D7C212F5BA2004FD822 /* AuthenticationTests.swift */,
 				92048D7D212F5BA2004FD822 /* CodableExtensionsTests.swift */,
 				92048D7B212F5BA2004FD822 /* JSONTests.swift */,
+				CA542768215558740035F8B6 /* MultiPartFormDataTests.swift */,
+				CA54276A215573F60035F8B6 /* Resources */,
 				92048D61212F4B47004FD822 /* Supporting Files */,
 			);
 			path = Tests;
@@ -127,6 +133,14 @@
 				92048D56212F49C8004FD822 /* Info.plist */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CA54276A215573F60035F8B6 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CA54276B215574380035F8B6 /* TestData.txt */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,6 +243,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA54276D2155763E0035F8B6 /* TestData.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,6 +270,7 @@
 			files = (
 				92048D7E212F5BA2004FD822 /* JSONTests.swift in Sources */,
 				92048D7F212F5BA2004FD822 /* AuthenticationTests.swift in Sources */,
+				CA542769215558740035F8B6 /* MultiPartFormDataTests.swift in Sources */,
 				92048D80212F5BA2004FD822 /* CodableExtensionsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
