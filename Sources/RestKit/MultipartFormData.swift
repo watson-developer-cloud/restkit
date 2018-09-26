@@ -21,8 +21,8 @@ public class MultipartFormData {
     public var contentType: String { return "multipart/form-data; boundary=\(boundary)" }
     // add contentLength?
 
-    private let boundary: String
-    private var bodyParts = [BodyPart]()
+    let boundary: String
+    var bodyParts = [BodyPart]()
 
     // Strings in Swift use Unicode internally, so encoding a string using a Unicode encoding will always succeed.
     // swiftlint:disable force_unwrapping
@@ -58,6 +58,15 @@ public class MultipartFormData {
         }
     }
 
+    public func append(file fileURL: URL, withName: String, mimeType: String? = nil) throws {
+       if let data = try? Data.init(contentsOf: fileURL) {
+            let bodyPart = BodyPart(key: withName, data: data, mimeType: mimeType, fileName: fileURL.lastPathComponent)
+            bodyParts.append(bodyPart)
+        } else {
+            throw RestError.serializationError
+        }
+    }
+
     public func toData() throws -> Data {
         var data = Data()
         for (index, bodyPart) in bodyParts.enumerated() {
@@ -80,7 +89,7 @@ public class MultipartFormData {
     }
 }
 
-private struct BodyPart {
+internal struct BodyPart {
 
     private(set) var key: String
     private(set) var data: Data
