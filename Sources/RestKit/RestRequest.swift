@@ -385,3 +385,19 @@ public enum RestResult<T> {
     case success(T)
     case failure(Error)
 }
+
+/**
+ URLSession delegate that is used to bypass SSL certificate verification.
+
+ **IMPORTANT**: This can potentially cause dangerous security breaches, so use only if you are certain that you have taken necessary precautions.
+ */
+public class DisableSSLDelegate: NSObject, URLSessionDelegate {
+    public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+
+        print("\nCHALLENGE PROTECTION SPACE:")
+        print(challenge.protectionSpace)
+
+        let credential = URLCredential(trust: challenge.protectionSpace.serverTrust!)
+        completionHandler(URLSession.AuthChallengeDisposition.useCredential, credential)
+    }
+}
