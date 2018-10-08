@@ -43,7 +43,7 @@ public enum RestError {
     case badURL
 
     /// An HTTP error with a status code and description.
-    case failure(Int, String)
+    case http(statusCode: Int, message: String)
 
 }
 
