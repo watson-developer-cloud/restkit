@@ -197,7 +197,7 @@ extension RestRequest {
             } else if T.self == String.self {
                 // parse data as a string
                 guard let string = String(data: data, encoding: .utf8) else {
-                    completionHandler(watsonResponse, RestError.serializationError)
+                    completionHandler(watsonResponse, RestError.serialization)
                     return
                 }
                 watsonResponse.result = string as? T
@@ -310,9 +310,9 @@ extension RestRequest {
                     return
                 }
 
-                // ensure the response body was saved to a temporary location
+                // ensure that we can retrieve the downloaded data from its temporary location
                 guard let location = location else {
-                    completionHandler(response, RestError.invalidFile)
+                    completionHandler(response, RestError.noData)
                     return
                 }
 
@@ -321,7 +321,7 @@ extension RestRequest {
                     try FileManager.default.moveItem(at: location, to: destination)
                     completionHandler(response, nil)
                 } catch {
-                    completionHandler(response, RestError.fileManagerError)
+                    completionHandler(response, RestError.saveData)
                 }
             }
 
