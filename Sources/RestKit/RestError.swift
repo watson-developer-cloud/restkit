@@ -17,7 +17,7 @@
 import Foundation
 
 /// An error from processing a network request or response.
-public enum RestError: Error {
+public enum RestError {
 
     /// No response was received from the server.
     case noResponse
@@ -45,4 +45,40 @@ public enum RestError: Error {
     /// An HTTP error with a status code and description.
     case failure(Int, String)
 
+}
+
+
+extension RestError: LocalizedError {
+
+    /// The status code returned by the server
+    public var statusCode: Int? {
+        switch self {
+        case .http(statusCode: let statusCode, _):
+            return statusCode
+        default:
+            return nil
+        }
+    }
+
+    /// A localized message describing what error occurred
+    public var errorDescription: String? {
+        switch self {
+        case .noResponse:
+            return "No response was received from the server"
+        case .noData:
+            return "No data was returned by the server"
+        case .serializationError:
+            return "Failed to serialize the data"
+        case .encodingError:
+            return "Failed to replace special characters in the URL path with percent encoded characters"
+        case .fileManagerError:
+            return "Failed the handle the provided file"
+        case .invalidFile:
+            return "Cannot load the provided file"
+        case .badURL:
+            return "Malformed URL"
+        case .http(_, message: let message):
+            return message
+        }
+    }
 }
