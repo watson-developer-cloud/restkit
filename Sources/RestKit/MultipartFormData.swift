@@ -63,7 +63,7 @@ public class MultipartFormData {
             let bodyPart = BodyPart(key: withName, data: data, mimeType: mimeType, fileName: fileURL.lastPathComponent)
             bodyParts.append(bodyPart)
         } else {
-            throw RestError.serializationError
+            throw RestError.serialization
         }
     }
 
@@ -76,7 +76,7 @@ public class MultipartFormData {
             } else if index != 0 {
                 bodyBoundary = encapsulatedBoundary
             } else {
-                throw RestError.encodingError
+                throw RestError.encoding
             }
 
             data.append(bodyBoundary)
@@ -129,7 +129,7 @@ internal struct BodyPart {
         var result = Data()
         let headerString = header
         guard let header = headerString.data(using: .utf8) else {
-            throw RestError.encodingError
+            throw RestError.encoding
         }
         result.append(header)
         result.append(data)

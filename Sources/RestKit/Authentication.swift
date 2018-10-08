@@ -71,7 +71,7 @@ public class BasicAuthentication: AuthenticationMethod {
     public func authenticate(request: RestRequest, completionHandler: @escaping (RestRequest?, Error?) -> Void) {
         var request = request
         guard let data = (username + ":" + password).data(using: .utf8) else {
-            completionHandler(nil, RestError.serializationError)
+            completionHandler(nil, RestError.serialization)
             return
         }
         let string = "Basic \(data.base64EncodedString())"
@@ -297,7 +297,7 @@ public class IAMAuthentication: AuthenticationMethod {
     }
 
     private func refreshToken(completionHandler: @escaping (IAMToken?, Error?) -> Void) {
-        guard let token = token else { completionHandler(nil, RestError.serializationError); return }
+        guard let token = token else { completionHandler(nil, RestError.serialization); return }
         let headerParameters = ["Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json"]
         let form = ["grant_type=refresh_token", "refresh_token=\(token.refreshToken)"]
         let request = RestRequest(

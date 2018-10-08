@@ -25,24 +25,21 @@ public enum RestError {
     /// No data was returned from the server.
     case noData
 
+    /// Failed to save the downloaded data.
+    /// The specified file may already exist or the disk may be full.
+    case saveData
+
     /// Failed to serialize value(s) to data.
-    case serializationError
+    case serialization
 
     /// Failed to replace special characters in the
     /// URL path with percent encoded characters.
-    case encodingError
-
-    /// FileManager failed to handle the given file.
-    /// (The file may already exist or the disk may be full.)
-    case fileManagerError
-
-    /// Failed to load the given file.
-    case invalidFile
+    case encoding
 
     /// The request failed because the URL was malformed.
     case badURL
 
-    /// An HTTP error with a status code and description.
+    /// Generic HTTP error with a status code and description.
     case http(statusCode: Int, message: String)
 
 }
@@ -67,14 +64,12 @@ extension RestError: LocalizedError {
             return "No response was received from the server"
         case .noData:
             return "No data was returned by the server"
-        case .serializationError:
+        case .saveData:
+            return "Failed to save the downloaded data. The specified file may already exist or the disk may be full."
+        case .serialization:
             return "Failed to serialize the data"
-        case .encodingError:
+        case .encoding:
             return "Failed to replace special characters in the URL path with percent encoded characters"
-        case .fileManagerError:
-            return "Failed the handle the provided file"
-        case .invalidFile:
-            return "Cannot load the provided file"
         case .badURL:
             return "Malformed URL"
         case .http(_, message: let message):
