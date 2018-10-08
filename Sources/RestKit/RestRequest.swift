@@ -151,7 +151,7 @@ extension RestRequest {
                         completionHandler(data, response, serviceError)
                     } else {
                         let genericMessage = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
-                        let genericError = RestError.failure(response.statusCode, genericMessage)
+                        let genericError = RestError.http(statusCode: response.statusCode, message: genericMessage)
                         completionHandler(data, response, genericError)
                     }
                     return

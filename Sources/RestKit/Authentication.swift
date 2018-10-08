@@ -87,7 +87,7 @@ public class BasicAuthentication: AuthenticationMethod {
                 request.addValue(token, forHTTPHeaderField: "X-Watson-Authorization-Token")
                 completionHandler(request, nil)
             } else {
-                completionHandler(nil, error ?? RestError.failure(400, "Token Manager error"))
+                completionHandler(nil, error ?? RestError.http(statusCode: 400, message: "Token Manager error"))
             }
         }
     }
@@ -106,7 +106,7 @@ public class BasicAuthentication: AuthenticationMethod {
     private func requestToken(completionHandler: @escaping (String?, Error?) -> Void) {
 
         guard let tokenURL = tokenURL else {
-            completionHandler(nil, RestError.failure(400, "Websocket authentication requires tokenURL"))
+            completionHandler(nil, RestError.http(statusCode: 400, message: "Websocket authentication requires tokenURL"))
             return
         }
 
@@ -152,7 +152,7 @@ public class BasicAuthentication: AuthenticationMethod {
             }
         } catch { /* no need to catch -- falls back to default description */ }
 
-        return RestError.failure(code, message)
+        return RestError.http(statusCode: code, message: message)
     }
 }
 
@@ -231,7 +231,7 @@ public class IAMAuthentication: AuthenticationMethod {
 
     internal func errorResponseDecoder(data: Data, response: HTTPURLResponse) -> Error {
         let genericMessage = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
-        return RestError.failure(response.statusCode, genericMessage)
+        return RestError.http(statusCode: response.statusCode, message: genericMessage)
     }
 
     public func authenticate(request: RestRequest, completionHandler: @escaping (RestRequest?, Error?) -> Void) {
@@ -241,7 +241,7 @@ public class IAMAuthentication: AuthenticationMethod {
                 request.headerParameters["Authorization"] = "Bearer \(token.accessToken)"
                 completionHandler(request, nil)
             } else {
-                completionHandler(nil, error ?? RestError.failure(400, "Token Manager error"))
+                completionHandler(nil, error ?? RestError.http(statusCode: 400, message: "Token Manager error"))
             }
         }
     }
@@ -253,7 +253,7 @@ public class IAMAuthentication: AuthenticationMethod {
                 request.addValue("Bearer \(token.accessToken)", forHTTPHeaderField: "Authorization")
                 completionHandler(request, nil)
             } else {
-                completionHandler(nil, error ?? RestError.failure(400, "Token Manager error"))
+                completionHandler(nil, error ?? RestError.http(statusCode: 400, message: "Token Manager error"))
             }
         }
     }

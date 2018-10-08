@@ -33,7 +33,7 @@ class AuthenticationTests: XCTestCase {
 
     internal static func errorResponseDecoder(data: Data, response: HTTPURLResponse) -> Error {
         let genericMessage = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
-        return RestError.failure(response.statusCode, genericMessage)
+        return RestError.http(statusCode: response.statusCode, message: genericMessage)
     }
 
     var request = RestRequest(
