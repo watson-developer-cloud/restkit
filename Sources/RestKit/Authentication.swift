@@ -32,7 +32,7 @@ public protocol AuthenticationMethod {
      - parameter request: The request that should be authenticated.
      - parameter completionHandler: The completion handler to execute with the authenticated `RestRequest`.
      */
-    func authenticate(request: RestRequest, completionHandler: @escaping (RestRequest?, Error?) -> Void)
+    func authenticate(request: RestRequest, completionHandler: @escaping (RestRequest?, RestError?) -> Void)
 
     /**
      Authenticate a `URLRequest`.
@@ -40,16 +40,16 @@ public protocol AuthenticationMethod {
      - parameter request: The request that should be authenticated.
      - parameter completionHandler: The completion handler to execute with the authenticated `URLRequest`.
      */
-    func authenticate(request: URLRequest, completionHandler: @escaping (URLRequest?, Error?) -> Void)
+    func authenticate(request: URLRequest, completionHandler: @escaping (URLRequest?, RestError?) -> Void)
 }
 
 /** No authentication. */
 public class NoAuthentication: AuthenticationMethod {
-    public func authenticate(request: RestRequest, completionHandler: @escaping (RestRequest?, Error?) -> Void) {
+    public func authenticate(request: RestRequest, completionHandler: @escaping (RestRequest?, RestError?) -> Void) {
         completionHandler(request, nil)
     }
 
-    public func authenticate(request: URLRequest, completionHandler: @escaping (URLRequest?, Error?) -> Void) {
+    public func authenticate(request: URLRequest, completionHandler: @escaping (URLRequest?, RestError?) -> Void) {
         completionHandler(request, nil)
     }
 }
@@ -68,7 +68,7 @@ public class BasicAuthentication: AuthenticationMethod {
         self.tokenURL = tokenURL
     }
 
-    public func authenticate(request: RestRequest, completionHandler: @escaping (RestRequest?, Error?) -> Void) {
+    public func authenticate(request: RestRequest, completionHandler: @escaping (RestRequest?, RestError?) -> Void) {
         var request = request
         guard let data = (username + ":" + password).data(using: .utf8) else {
             completionHandler(nil, RestError.serialization)
@@ -79,7 +79,7 @@ public class BasicAuthentication: AuthenticationMethod {
         completionHandler(request, nil)
     }
 
-    public func authenticate(request: URLRequest, completionHandler: @escaping (URLRequest?, Error?) -> Void) {
+    public func authenticate(request: URLRequest, completionHandler: @escaping (URLRequest?, RestError?) -> Void) {
         var request = request
         getToken {
             token, error in
@@ -92,7 +92,7 @@ public class BasicAuthentication: AuthenticationMethod {
         }
     }
 
-    private func getToken(completionHandler: @escaping (String?, Error?) -> Void) {
+    private func getToken(completionHandler: @escaping (String?, RestError?) -> Void) {
         // request a new access token if not present
         guard let token = token else {
             requestToken(completionHandler: completionHandler)
@@ -103,7 +103,7 @@ public class BasicAuthentication: AuthenticationMethod {
         completionHandler(token, nil)
     }
 
-    private func requestToken(completionHandler: @escaping (String?, Error?) -> Void) {
+    private func requestToken(completionHandler: @escaping (String?, RestError?) -> Void) {
 
         guard let tokenURL = tokenURL else {
             completionHandler(nil, RestError.http(statusCode: 400, message: "Websocket authentication requires tokenURL"))
@@ -121,7 +121,8 @@ public class BasicAuthentication: AuthenticationMethod {
 
         request.response { (response: WatsonResponse<String>?, error) in
             guard error == nil else {
-                completionHandler(nil, error)
+                let restError = RestError.http(statusCode: response?.statusCode, message: "\(String(describing: error))")
+                completionHandler(nil, restError)
                 return
             }
             guard let token = response?.result else {
@@ -139,7 +140,7 @@ public class BasicAuthentication: AuthenticationMethod {
      - parameter response: an http response from the token url
      - parameter data: raw body data from the token url response
      */
-    private func errorResponseDecoder(data: Data, response: HTTPURLResponse) -> Error {
+    private func errorResponseDecoder(data: Data, response: HTTPURLResponse) -> RestError {
         // default error description
         let code = response.statusCode
         var message = "Token authentication failed."
@@ -174,7 +175,7 @@ public class APIKeyAuthentication: AuthenticationMethod {
         self.location = location
     }
 
-    public func authenticate(request: RestRequest, completionHandler: @escaping (RestRequest?, Error?) -> Void) {
+    public func authenticate(request: RestRequest, completionHandler: @escaping (RestRequest?, RestError?) -> Void) {
         var request = request
         switch location {
         case .header: request.headerParameters[name] = key
@@ -184,7 +185,7 @@ public class APIKeyAuthentication: AuthenticationMethod {
     }
 
     // Dummy method
-    public func authenticate(request: URLRequest, completionHandler: @escaping (URLRequest?, Error?) -> Void) {
+    public func authenticate(request: URLRequest, completionHandler: @escaping (URLRequest?, RestError?) -> Void) {
         completionHandler(request, nil)
     }
 }
@@ -198,13 +199,13 @@ public class IAMAccessToken: AuthenticationMethod {
         self.accessToken = accessToken
     }
 
-    public func authenticate(request: RestRequest, completionHandler: @escaping (RestRequest?, Error?) -> Void) {
+    public func authenticate(request: RestRequest, completionHandler: @escaping (RestRequest?, RestError?) -> Void) {
         var request = request
         request.headerParameters["Authorization"] = "Bearer \(accessToken)"
         completionHandler(request, nil)
     }
 
-    public func authenticate(request: URLRequest, completionHandler: @escaping (URLRequest?, Error?) -> Void) {
+    public func authenticate(request: URLRequest, completionHandler: @escaping (URLRequest?, RestError?) -> Void) {
         var request = request
         request.addValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         completionHandler(request, nil)
@@ -229,12 +230,12 @@ public class IAMAuthentication: AuthenticationMethod {
         self.token = nil
     }
 
-    internal func errorResponseDecoder(data: Data, response: HTTPURLResponse) -> Error {
+    internal func errorResponseDecoder(data: Data, response: HTTPURLResponse) -> RestError {
         let genericMessage = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
         return RestError.http(statusCode: response.statusCode, message: genericMessage)
     }
 
-    public func authenticate(request: RestRequest, completionHandler: @escaping (RestRequest?, Error?) -> Void) {
+    public func authenticate(request: RestRequest, completionHandler: @escaping (RestRequest?, RestError?) -> Void) {
         var request = request
         getToken { token, error in
             if let token = token {
@@ -246,7 +247,7 @@ public class IAMAuthentication: AuthenticationMethod {
         }
     }
 
-    public func authenticate(request: URLRequest, completionHandler: @escaping (URLRequest?, Error?) -> Void) {
+    public func authenticate(request: URLRequest, completionHandler: @escaping (URLRequest?, RestError?) -> Void) {
         var request = request
         getToken { token, error in
             if let token = token {
@@ -258,7 +259,7 @@ public class IAMAuthentication: AuthenticationMethod {
         }
     }
 
-    private func getToken(completionHandler: @escaping (IAMToken?, Error?) -> Void) {
+    private func getToken(completionHandler: @escaping (IAMToken?, RestError?) -> Void) {
         // request a new access token if not present
         guard let token = token, !token.isRefreshTokenExpired else {
             requestToken(completionHandler: completionHandler)
@@ -275,7 +276,7 @@ public class IAMAuthentication: AuthenticationMethod {
         completionHandler(token, nil)
     }
 
-    private func requestToken(completionHandler: @escaping (IAMToken?, Error?) -> Void) {
+    private func requestToken(completionHandler: @escaping (IAMToken?, RestError?) -> Void) {
         let headerParameters = ["Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json"]
         let form = ["grant_type=urn:ibm:params:oauth:grant-type:apikey", "apikey=\(apiKey)", "response_type=cloud_iam"]
         let request = RestRequest(
@@ -296,7 +297,7 @@ public class IAMAuthentication: AuthenticationMethod {
         }
     }
 
-    private func refreshToken(completionHandler: @escaping (IAMToken?, Error?) -> Void) {
+    private func refreshToken(completionHandler: @escaping (IAMToken?, RestError?) -> Void) {
         guard let token = token else { completionHandler(nil, RestError.serialization); return }
         let headerParameters = ["Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json"]
         let form = ["grant_type=refresh_token", "refresh_token=\(token.refreshToken)"]

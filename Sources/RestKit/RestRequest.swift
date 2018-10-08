@@ -55,7 +55,7 @@ public struct RestRequest {
 
     private let session: URLSession
     internal var authMethod: AuthenticationMethod
-    internal var errorResponseDecoder: ((Data, HTTPURLResponse) -> Error)
+    internal var errorResponseDecoder: ((Data, HTTPURLResponse) -> RestError)
     internal var method: String
     internal var url: String
     internal var headerParameters: [String: String]
@@ -65,7 +65,7 @@ public struct RestRequest {
     public init(
         session: URLSession,
         authMethod: AuthenticationMethod,
-        errorResponseDecoder: @escaping ((Data, HTTPURLResponse) -> Error),
+        errorResponseDecoder: @escaping ((Data, HTTPURLResponse) -> RestError),
         method: String,
         url: String,
         headerParameters: [String: String],
@@ -111,7 +111,7 @@ extension RestRequest {
      - completionHandler: The completion handler to call when the request is complete.
      */
     internal func execute(
-        completionHandler: @escaping (Data?, HTTPURLResponse?, Error?) -> Void)
+        completionHandler: @escaping (Data?, HTTPURLResponse?, RestError?) -> Void)
     {
         // add authentication credentials to the request
         authMethod.authenticate(request: self) { request, error in
@@ -131,16 +131,17 @@ extension RestRequest {
             // create a task to execute the request
             let task = self.session.dataTask(with: urlRequest) { (data, response, error) in
 
-                // ensure there is no underlying error
-                guard error == nil else {
-                    completionHandler(data, response as? HTTPURLResponse, error)
-                    return
-                }
-
                 // ensure there is a valid http response
                 guard let response = response as? HTTPURLResponse else {
                     let error = RestError.noResponse
                     completionHandler(data, nil, error)
+                    return
+                }
+
+                // ensure there is no underlying error
+                guard error == nil else {
+                    let restError = RestError.http(statusCode: response.statusCode, message: "\(String(describing: error))")
+                    completionHandler(data, response, restError)
                     return
                 }
 
@@ -172,7 +173,7 @@ extension RestRequest {
      - completionHandler: The completion handler to call when the request is complete.
      */
     public func response<T>(
-        completionHandler: @escaping (WatsonResponse<T>?, Error?) -> Void)
+        completionHandler: @escaping (WatsonResponse<T>?, RestError?) -> Void)
     {
         // execute the request
         execute { data, response, error in
@@ -217,7 +218,7 @@ extension RestRequest {
      - completionHandler: The completion handler to call when the request is complete.
      */
     public func responseObject<T: Decodable>(
-        completionHandler: @escaping (WatsonResponse<T>?, Error?) -> Void)
+        completionHandler: @escaping (WatsonResponse<T>?, RestError?) -> Void)
     {
         // execute the request
         execute { data, response, error in
@@ -241,7 +242,7 @@ extension RestRequest {
                 watsonResponse.result = try JSON.decoder.decode(T.self, from: data)
                 completionHandler(watsonResponse, nil)
             } catch {
-                completionHandler(nil, error)
+                completionHandler(nil, RestError.serialization)
             }
         }
     }
@@ -252,7 +253,7 @@ extension RestRequest {
      - completionHandler: The completion handler to call when the request is complete.
      */
     public func responseVoid(
-        completionHandler: @escaping (WatsonResponse<Void>?, Error?) -> Void)
+        completionHandler: @escaping (WatsonResponse<Void>?, RestError?) -> Void)
     {
         // execute the request
         execute { _, response, error in
@@ -278,7 +279,7 @@ extension RestRequest {
      */
     public func download(
         to destination: URL,
-        completionHandler: @escaping (HTTPURLResponse?, Error?) -> Void)
+        completionHandler: @escaping (HTTPURLResponse?, RestError?) -> Void)
     {
         // add authentication credentials to the request
         authMethod.authenticate(request: self) { request, error in
@@ -298,15 +299,16 @@ extension RestRequest {
             // create a task to execute the request
             let task = self.session.downloadTask(with: urlRequest) { (location, response, error) in
 
-                // ensure there is no underlying error
-                guard error == nil else {
-                    completionHandler(response as? HTTPURLResponse, error)
-                    return
-                }
-
                 // ensure there is a valid http response
                 guard let response = response as? HTTPURLResponse else {
                     completionHandler(nil, RestError.noResponse)
+                    return
+                }
+
+                // ensure there is no underlying error
+                guard error == nil else {
+                    let restError = RestError.http(statusCode: response.statusCode, message: "\(String(describing: error))")
+                    completionHandler(response, restError)
                     return
                 }
 
