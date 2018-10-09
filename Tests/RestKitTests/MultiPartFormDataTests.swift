@@ -40,7 +40,7 @@ class MultiPartFormDataTests: XCTestCase {
 
     func loadResource(name: String, ext: String) -> URL {
         #if os(Linux)
-        return URL(fileURLWithPath: "Tests/RestKitTests/Resources/" + name + "." + ext)
+        return URL(fileURLWithPath: "Tests/Resources/" + name + "." + ext)
         #else
         let bundle = Bundle(for: type(of: self))
         guard let url = bundle.url(forResource: name, withExtension: ext) else {
