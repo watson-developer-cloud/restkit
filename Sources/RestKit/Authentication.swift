@@ -92,6 +92,17 @@ public class BasicAuthentication: AuthenticationMethod {
         }
     }
 
+    public func authenticateWithoutToken(request: URLRequest, completionHandler: @escaping (URLRequest?, Error?) -> Void) {
+        var request = request
+        guard let data = (username + ":" + password).data(using: .utf8) else {
+            completionHandler(nil, RestError.serializationError)
+            return
+        }
+        let string = "Basic \(data.base64EncodedString())"
+        request.addValue(string, forHTTPHeaderField: "Authorization")
+        completionHandler(request, nil)
+    }
+
     private func getToken(completionHandler: @escaping (String?, Error?) -> Void) {
         // request a new access token if not present
         guard let token = token else {
