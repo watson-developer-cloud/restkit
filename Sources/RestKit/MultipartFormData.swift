@@ -63,7 +63,7 @@ public class MultipartFormData {
             let bodyPart = BodyPart(key: withName, data: data, mimeType: mimeType, fileName: fileURL.lastPathComponent)
             bodyParts.append(bodyPart)
         } else {
-            throw RestError.serialization
+            throw RestError.serialization("file contents")
         }
     }
 

@@ -30,7 +30,7 @@ public enum RestError {
     case saveData
 
     /// Failed to serialize value(s) to data.
-    case serialization
+    case serialization(String)
 
     /// Failed to replace special characters in the
     /// URL path with percent encoded characters.
@@ -66,8 +66,8 @@ extension RestError: LocalizedError {
             return "No data was returned by the server"
         case .saveData:
             return "Failed to save the downloaded data. The specified file may already exist or the disk may be full."
-        case .serialization:
-            return "Failed to serialize the data"
+        case .serialization(let values):
+            return "Failed to serialize " + values
         case .encoding:
             return "Failed to replace special characters in the URL path with percent encoded characters"
         case .badURL:

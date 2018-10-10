@@ -198,7 +198,7 @@ extension RestRequest {
             } else if T.self == String.self {
                 // parse data as a string
                 guard let string = String(data: data, encoding: .utf8) else {
-                    completionHandler(watsonResponse, RestError.serialization)
+                    completionHandler(watsonResponse, RestError.serialization("response string"))
                     return
                 }
                 watsonResponse.result = string as? T
@@ -242,7 +242,7 @@ extension RestRequest {
                 watsonResponse.result = try JSON.decoder.decode(T.self, from: data)
                 completionHandler(watsonResponse, nil)
             } catch {
-                completionHandler(nil, RestError.serialization)
+                completionHandler(nil, RestError.serialization("response JSON"))
             }
         }
     }
