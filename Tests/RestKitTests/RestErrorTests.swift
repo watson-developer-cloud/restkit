@@ -27,12 +27,23 @@ class RestErrorTests: XCTestCase {
     func testHTTPErrorStatusCode() {
         let testStatusCode = 400
         let httpError = RestError.http(statusCode: testStatusCode, message: "Success")
+
         XCTAssertEqual(httpError.statusCode, testStatusCode)
     }
 
     func testHTTPErrorMessage() {
         let testMessage = "Something went wrong"
         let httpError = RestError.http(statusCode: 500, message: testMessage)
+
         XCTAssertEqual(httpError.errorDescription, testMessage)
+    }
+
+    func testHTTPErrorMetadata() {
+        let testStatusCode = 500
+        let testMessage = "Something went wrong"
+        let httpError = RestError.http(statusCode: testStatusCode, message: testMessage)
+
+        XCTAssertEqual(httpError.metadata!["status_code"]!, JSON.int(testStatusCode))
+        XCTAssertEqual(httpError.metadata!["message"]!, JSON.string(testMessage))
     }
 }
