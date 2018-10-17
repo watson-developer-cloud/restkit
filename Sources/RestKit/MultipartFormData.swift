@@ -73,10 +73,8 @@ public class MultipartFormData {
             let bodyBoundary: Data
             if index == 0 {
                 bodyBoundary = initialBoundary
-            } else if index != 0 {
-                bodyBoundary = encapsulatedBoundary
             } else {
-                throw RestError.encoding
+                bodyBoundary = encapsulatedBoundary
             }
 
             data.append(bodyBoundary)
@@ -129,7 +127,7 @@ internal struct BodyPart {
         var result = Data()
         let headerString = header
         guard let header = headerString.data(using: .utf8) else {
-            throw RestError.encoding
+            throw RestError.serialization(values: headerString, metadata: nil)
         }
         result.append(header)
         result.append(data)
