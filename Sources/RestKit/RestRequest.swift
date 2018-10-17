@@ -394,9 +394,6 @@ public enum RestResult<T> {
 public class DisableSSLDelegate: NSObject, URLSessionDelegate {
     public func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
 
-        print("\nCHALLENGE PROTECTION SPACE:")
-        print(challenge.protectionSpace)
-
         let credential = URLCredential(trust: challenge.protectionSpace.serverTrust!)
         completionHandler(URLSession.AuthChallengeDisposition.useCredential, credential)
     }
