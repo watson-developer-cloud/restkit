@@ -41,7 +41,6 @@ public enum RestError {
 
     /// Generic HTTP error with a status code and description.
     case http(statusCode: Int?, message: String?)
-
 }
 
 
