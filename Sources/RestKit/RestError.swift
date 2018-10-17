@@ -30,7 +30,7 @@ public enum RestError {
     case saveData
 
     /// Failed to serialize value(s) to data.
-    case serialization(String)
+    case serialization(values: String, metadata: [String: JSON]?)
 
     /// Failed to replace special characters in the
     /// URL path with percent encoded characters.
@@ -66,7 +66,7 @@ extension RestError: LocalizedError {
             return "No data was returned by the server"
         case .saveData:
             return "Failed to save the downloaded data. The specified file may already exist or the disk may be full."
-        case .serialization(let values):
+        case .serialization(let values, _):
             return "Failed to serialize " + values
         case .encoding:
             return "Failed to replace special characters in the URL path with percent encoded characters"
@@ -74,6 +74,26 @@ extension RestError: LocalizedError {
             return "Malformed URL"
         case .http(_, message: let message):
             return message
+        }
+    }
+
+    /// Contains additional information associated with the error
+    /// Currently only supported for `RestError.serialization` and `RestError.http`
+    public var metadata: [String: JSON]? {
+        switch self {
+        case .serialization(_, let metadata):
+            return metadata
+        case .http(let statusCode, let message):
+            var meta = [String: JSON]()
+            if let statusCode = statusCode {
+                meta["status_code"] = JSON.int(statusCode)
+            }
+            if let message = message {
+                meta["message"] = JSON.string(message)
+            }
+            return !meta.isEmpty ? meta : nil
+        default:
+            return nil
         }
     }
 }
