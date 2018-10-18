@@ -22,6 +22,7 @@ class RestErrorTests: XCTestCase {
     static var allTests = [
         ("testHTTPErrorStatusCode", testHTTPErrorStatusCode),
         ("testHTTPErrorMessage", testHTTPErrorMessage),
+        ("testHTTPErrorMetadata", testHTTPErrorMetadata),
     ]
 
     func testHTTPErrorStatusCode() {
