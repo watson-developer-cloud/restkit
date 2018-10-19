@@ -7,4 +7,5 @@ XCTMain([
     testCase(CodableExtensionsTests.allTests),
     testCase(JSONTests.allTests),
     testCase(RestErrorTests.allTests),
+    testCase(MultiPartFormDataTests.allTests),
 ])
