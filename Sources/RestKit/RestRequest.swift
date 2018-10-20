@@ -140,7 +140,7 @@ extension RestRequest {
 
                 // ensure there is no underlying error
                 guard error == nil else {
-                    let restError = RestError.http(statusCode: response.statusCode, message: "\(String(describing: error))")
+                    let restError = RestError.http(statusCode: response.statusCode, message: "\(String(describing: error))", metadata: nil)
                     completionHandler(data, response, restError)
                     return
                 }
@@ -152,7 +152,7 @@ extension RestRequest {
                         completionHandler(data, response, serviceError)
                     } else {
                         let genericMessage = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
-                        let genericError = RestError.http(statusCode: response.statusCode, message: genericMessage)
+                        let genericError = RestError.http(statusCode: response.statusCode, message: genericMessage, metadata: nil)
                         completionHandler(data, response, genericError)
                     }
                     return
@@ -198,7 +198,7 @@ extension RestRequest {
             } else if T.self == String.self {
                 // parse data as a string
                 guard let string = String(data: data, encoding: .utf8) else {
-                    completionHandler(watsonResponse, RestError.serialization(values: "response string", metadata: nil))
+                    completionHandler(watsonResponse, RestError.serialization(values: "response string"))
                     return
                 }
                 watsonResponse.result = string as? T
@@ -242,7 +242,7 @@ extension RestRequest {
                 watsonResponse.result = try JSON.decoder.decode(T.self, from: data)
                 completionHandler(watsonResponse, nil)
             } catch {
-                completionHandler(nil, RestError.serialization(values: "response JSON", metadata: nil))
+                completionHandler(nil, RestError.serialization(values: "response JSON"))
             }
         }
     }
@@ -307,7 +307,7 @@ extension RestRequest {
 
                 // ensure there is no underlying error
                 guard error == nil else {
-                    let restError = RestError.http(statusCode: response.statusCode, message: "\(String(describing: error))")
+                    let restError = RestError.http(statusCode: response.statusCode, message: "\(String(describing: error))", metadata: nil)
                     completionHandler(response, restError)
                     return
                 }

@@ -27,24 +27,37 @@ class RestErrorTests: XCTestCase {
 
     func testHTTPErrorStatusCode() {
         let testStatusCode = 400
-        let httpError = RestError.http(statusCode: testStatusCode, message: "Success")
+        let httpError = RestError.http(statusCode: testStatusCode, message: "Success", metadata: nil)
 
-        XCTAssertEqual(httpError.statusCode, testStatusCode)
+        guard case RestError.http(let statusCode, _, _) = httpError else {
+            XCTFail("Expected RestError.http")
+        }
+        XCTAssertEqual(statusCode, testStatusCode)
     }
 
     func testHTTPErrorMessage() {
         let testMessage = "Something went wrong"
-        let httpError = RestError.http(statusCode: 500, message: testMessage)
+        let httpError = RestError.http(statusCode: 500, message: testMessage, metadata: nil)
 
+        guard case RestError.http(_, let message, _) = httpError else {
+            XCTFail("Expected RestError.http")
+        }
+        XCTAssertEqual(message, testMessage)
         XCTAssertEqual(httpError.errorDescription, testMessage)
     }
 
     func testHTTPErrorMetadata() {
         let testStatusCode = 500
-        let testMessage = "Something went wrong"
-        let httpError = RestError.http(statusCode: testStatusCode, message: testMessage)
+        let testMetadata: [String: JSON] = [
+            "key0": JSON.int(42),
+            "key1": JSON.boolean(true)
+        ]
+        let httpError = RestError.http(statusCode: testStatusCode, message: nil, metadata: testMetadata)
 
-        XCTAssertEqual(httpError.metadata!["status_code"]!, JSON.int(testStatusCode))
-        XCTAssertEqual(httpError.metadata!["message"]!, JSON.string(testMessage))
+        guard case RestError.http(_, _, let metadata) = httpError else {
+            XCTFail("Expected RestError.http")
+        }
+        XCTAssertEqual(metadata!["key0"]!, JSON.int(42))
+        XCTAssertEqual(metadata!["key1"]!, JSON.boolean(true))
     }
 }

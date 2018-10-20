@@ -71,7 +71,7 @@ public class BasicAuthentication: AuthenticationMethod {
     public func authenticate(request: RestRequest, completionHandler: @escaping (RestRequest?, RestError?) -> Void) {
         var request = request
         guard let data = (username + ":" + password).data(using: .utf8) else {
-            completionHandler(nil, RestError.serialization(values: "username and password", metadata: nil))
+            completionHandler(nil, RestError.serialization(values: "username and password"))
             return
         }
         let string = "Basic \(data.base64EncodedString())"
@@ -87,7 +87,7 @@ public class BasicAuthentication: AuthenticationMethod {
                 request.addValue(token, forHTTPHeaderField: "X-Watson-Authorization-Token")
                 completionHandler(request, nil)
             } else {
-                completionHandler(nil, error ?? RestError.http(statusCode: 400, message: "Token Manager error"))
+                completionHandler(nil, error ?? RestError.http(statusCode: 400, message: "Token Manager error", metadata: nil))
             }
         }
     }
@@ -106,7 +106,7 @@ public class BasicAuthentication: AuthenticationMethod {
     private func requestToken(completionHandler: @escaping (String?, RestError?) -> Void) {
 
         guard let tokenURL = tokenURL else {
-            completionHandler(nil, RestError.http(statusCode: 400, message: "Websocket authentication requires tokenURL"))
+            completionHandler(nil, RestError.http(statusCode: 400, message: "Websocket authentication requires tokenURL", metadata: nil))
             return
         }
 
@@ -121,7 +121,7 @@ public class BasicAuthentication: AuthenticationMethod {
 
         request.response { (response: WatsonResponse<String>?, error) in
             guard error == nil else {
-                let restError = RestError.http(statusCode: response?.statusCode, message: "\(String(describing: error))")
+                let restError = RestError.http(statusCode: response?.statusCode, message: "\(String(describing: error))", metadata: nil)
                 completionHandler(nil, restError)
                 return
             }
@@ -153,7 +153,7 @@ public class BasicAuthentication: AuthenticationMethod {
             }
         } catch { /* no need to catch -- falls back to default description */ }
 
-        return RestError.http(statusCode: code, message: message)
+        return RestError.http(statusCode: code, message: message, metadata: nil)
     }
 }
 
@@ -232,7 +232,7 @@ public class IAMAuthentication: AuthenticationMethod {
 
     internal func errorResponseDecoder(data: Data, response: HTTPURLResponse) -> RestError {
         let genericMessage = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
-        return RestError.http(statusCode: response.statusCode, message: genericMessage)
+        return RestError.http(statusCode: response.statusCode, message: genericMessage, metadata: nil)
     }
 
     public func authenticate(request: RestRequest, completionHandler: @escaping (RestRequest?, RestError?) -> Void) {
@@ -242,7 +242,7 @@ public class IAMAuthentication: AuthenticationMethod {
                 request.headerParameters["Authorization"] = "Bearer \(token.accessToken)"
                 completionHandler(request, nil)
             } else {
-                completionHandler(nil, error ?? RestError.http(statusCode: 400, message: "Token Manager error"))
+                completionHandler(nil, error ?? RestError.http(statusCode: 400, message: "Token Manager error", metadata: nil))
             }
         }
     }
@@ -254,7 +254,7 @@ public class IAMAuthentication: AuthenticationMethod {
                 request.addValue("Bearer \(token.accessToken)", forHTTPHeaderField: "Authorization")
                 completionHandler(request, nil)
             } else {
-                completionHandler(nil, error ?? RestError.http(statusCode: 400, message: "Token Manager error"))
+                completionHandler(nil, error ?? RestError.http(statusCode: 400, message: "Token Manager error", metadata: nil))
             }
         }
     }
@@ -298,7 +298,7 @@ public class IAMAuthentication: AuthenticationMethod {
     }
 
     private func refreshToken(completionHandler: @escaping (IAMToken?, RestError?) -> Void) {
-        guard let token = token else { completionHandler(nil, RestError.serialization(values: "IAM token", metadata: nil)); return }
+        guard let token = token else { completionHandler(nil, RestError.serialization(values: "IAM token")); return }
         let headerParameters = ["Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json"]
         let form = ["grant_type=refresh_token", "refresh_token=\(token.refreshToken)"]
         let request = RestRequest(
