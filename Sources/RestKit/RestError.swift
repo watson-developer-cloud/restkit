@@ -34,7 +34,7 @@ public enum RestError {
 
     /// Failed to replace special characters in the
     /// URL path with percent encoded characters.
-    case encoding(path: String)
+    case urlEncoding(path: String)
 
     /// The request failed because the URL was malformed.
     case badURL
@@ -56,7 +56,7 @@ extension RestError: LocalizedError {
             return "Failed to save the downloaded data. The specified file may already exist or the disk may be full."
         case .serialization(let values):
             return "Failed to serialize " + values
-        case .encoding(let path):
+        case .urlEncoding(let path):
             return "Failed to add percent encoding to \(path)"
         case .badURL:
             return "Malformed URL"
