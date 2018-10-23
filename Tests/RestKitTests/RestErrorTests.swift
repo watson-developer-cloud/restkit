@@ -48,16 +48,18 @@ class RestErrorTests: XCTestCase {
 
     func testHTTPErrorMetadata() {
         let testStatusCode = 500
-        let testMetadata: [String: JSON] = [
-            "key0": JSON.int(42),
-            "key1": JSON.boolean(true)
+        let testMetadata: [String: Any] = [
+            "key0": 42,
+            "key1": true,
+            "key2": "value"
         ]
         let httpError = RestError.http(statusCode: testStatusCode, message: nil, metadata: testMetadata)
 
         guard case RestError.http(_, _, let metadata) = httpError else {
             XCTFail("Expected RestError.http")
         }
-        XCTAssertEqual(metadata!["key0"]!, JSON.int(42))
-        XCTAssertEqual(metadata!["key1"]!, JSON.boolean(true))
+        XCTAssertEqual(metadata!["key0"] as? Int, 42)
+        XCTAssertEqual(metadata!["key1"] as? Bool, true)
+        XCTAssertEqual(metadata!["key2"] as? String, "value")
     }
 }
