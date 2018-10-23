@@ -41,6 +41,9 @@ public enum RestError {
 
     /// Generic HTTP error with a status code and description.
     case http(statusCode: Int?, message: String?, metadata: [String: Any]?)
+
+    /// Error that does not fall under any other `RestError` category
+    case other(message: String?)
 }
 
 
@@ -60,7 +63,9 @@ extension RestError: LocalizedError {
             return "Failed to add percent encoding to \(path)"
         case .badURL:
             return "Malformed URL"
-        case .http(_, message: let message, _):
+        case .http(_, let message, _):
+            return message
+        case .other(let message):
             return message
         }
     }
