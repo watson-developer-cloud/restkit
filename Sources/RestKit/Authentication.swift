@@ -119,7 +119,7 @@ public class BasicAuthentication: AuthenticationMethod {
             url: tokenURL,
             headerParameters: [:])
 
-        request.response { (response: WatsonResponse<String>?, error) in
+        request.response { (response: RestResponse<String>?, error) in
             guard error == nil else {
                 let restError = RestError.http(statusCode: response?.statusCode, message: "\(String(describing: error))", metadata: nil)
                 completionHandler(nil, restError)
@@ -288,7 +288,7 @@ public class IAMAuthentication: AuthenticationMethod {
             headerParameters: headerParameters,
             messageBody: form.joined(separator: "&").data(using: .utf8)
         )
-        request.responseObject { (response: WatsonResponse<IAMToken>?, error) in
+        request.responseObject { (response: RestResponse<IAMToken>?, error) in
             guard let token = response?.result, error == nil else {
                 completionHandler(nil, error)
                 return
@@ -310,7 +310,7 @@ public class IAMAuthentication: AuthenticationMethod {
             headerParameters: headerParameters,
             messageBody: form.joined(separator: "&").data(using: .utf8)
         )
-        request.responseObject { (response: WatsonResponse<IAMToken>?, error) in
+        request.responseObject { (response: RestResponse<IAMToken>?, error) in
             guard let token = response?.result, error == nil else {
                 completionHandler(nil, error)
                 return

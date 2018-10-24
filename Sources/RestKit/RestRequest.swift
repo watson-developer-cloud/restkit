@@ -173,7 +173,7 @@ extension RestRequest {
      - completionHandler: The completion handler to call when the request is complete.
      */
     public func response<T>(
-        completionHandler: @escaping (WatsonResponse<T>?, RestError?) -> Void)
+        completionHandler: @escaping (RestResponse<T>?, RestError?) -> Void)
     {
         // execute the request
         execute { data, response, error in
@@ -184,31 +184,31 @@ extension RestRequest {
                 return
             }
 
-            var watsonResponse = WatsonResponse<T>(response: response)
+            var restResponse = RestResponse<T>(response: response)
 
             // ensure there is data to parse
             guard let data = data else {
-                completionHandler(watsonResponse, RestError.noData)
+                completionHandler(restResponse, RestError.noData)
                 return
             }
 
             if T.self == Data.self {
                 // pass thru the raw data
-                watsonResponse.result = data as? T
+                restResponse.result = data as? T
             } else if T.self == String.self {
                 // parse data as a string
                 guard let string = String(data: data, encoding: .utf8) else {
-                    completionHandler(watsonResponse, RestError.serialization(values: "response string"))
+                    completionHandler(restResponse, RestError.serialization(values: "response string"))
                     return
                 }
-                watsonResponse.result = string as? T
+                restResponse.result = string as? T
             } else {
                 // no other supported types
-                watsonResponse.result = nil
+                restResponse.result = nil
             }
 
             // execute completion handler
-            completionHandler(watsonResponse, nil)
+            completionHandler(restResponse, nil)
         }
     }
 
@@ -218,7 +218,7 @@ extension RestRequest {
      - completionHandler: The completion handler to call when the request is complete.
      */
     public func responseObject<T: Decodable>(
-        completionHandler: @escaping (WatsonResponse<T>?, RestError?) -> Void)
+        completionHandler: @escaping (RestResponse<T>?, RestError?) -> Void)
     {
         // execute the request
         execute { data, response, error in
@@ -229,18 +229,18 @@ extension RestRequest {
                 return
             }
 
-            var watsonResponse = WatsonResponse<T>(response: response)
+            var restResponse = RestResponse<T>(response: response)
 
             // ensure there is data to parse
             guard let data = data else {
-                completionHandler(watsonResponse, RestError.noData)
+                completionHandler(restResponse, RestError.noData)
                 return
             }
 
             // parse response body as a JSONobject
             do {
-                watsonResponse.result = try JSON.decoder.decode(T.self, from: data)
-                completionHandler(watsonResponse, nil)
+                restResponse.result = try JSON.decoder.decode(T.self, from: data)
+                completionHandler(restResponse, nil)
             } catch {
                 completionHandler(nil, RestError.serialization(values: "response JSON"))
             }
@@ -253,7 +253,7 @@ extension RestRequest {
      - completionHandler: The completion handler to call when the request is complete.
      */
     public func responseVoid(
-        completionHandler: @escaping (WatsonResponse<Void>?, RestError?) -> Void)
+        completionHandler: @escaping (RestResponse<Void>?, RestError?) -> Void)
     {
         // execute the request
         execute { _, response, error in
@@ -264,10 +264,10 @@ extension RestRequest {
                 return
             }
 
-            let watsonResponse = WatsonResponse<Void>(response: response)
+            let restResponse = RestResponse<Void>(response: response)
 
             // execute completion handler
-            completionHandler(watsonResponse, nil)
+            completionHandler(restResponse, nil)
         }
     }
 

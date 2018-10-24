@@ -16,13 +16,13 @@
 
 import Foundation
 
-// MARK: - WatsonResponse
+// MARK: - RestResponse
 
 /**
  Common response type for all service methods that encapsulates the response status,
  response headers if any, and the result of the service call of the parameterized type T.
  */
-public struct WatsonResponse<T> {
+public struct RestResponse<T> {
 
     /**
      The HTTP status code.
