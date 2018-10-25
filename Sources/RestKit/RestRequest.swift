@@ -20,38 +20,9 @@ import Foundation
 
 public struct RestRequest {
 
-    // TODO: For RestKit version 2.0, remove the setter. This should only be set by the Watson Swift SDK.
-    // This needs to stay until 2.0 because Carthage will cause it to break with Watson Swift SDK v0.33.
     /// The "User-Agent" header that will be sent with every network request
     /// This can include information such as the operating system and the SDK/framework calling this API
-    public static var userAgent: String = {
-        let sdk = "watson-apis-swift-sdk"
-
-        let operatingSystem: String = {
-            #if os(iOS)
-            return "iOS"
-            #elseif os(watchOS)
-            return "watchOS"
-            #elseif os(tvOS)
-            return "tvOS"
-            #elseif os(macOS)
-            return "macOS"
-            #elseif os(Linux)
-            return "Linux"
-            #else
-            return "Unknown"
-            #endif
-        }()
-        let operatingSystemVersion: String = {
-            // swiftlint:disable:next identifier_name
-            let os = ProcessInfo.processInfo.operatingSystemVersion
-            return "\(os.majorVersion).\(os.minorVersion).\(os.patchVersion)"
-        }()
-        return "\(sdk)/\(sdkVersion) \(operatingSystem)/\(operatingSystemVersion)"
-    }()
-
-    // TODO: Remove this in RestKit version 2.0
-    public static var sdkVersion: String = "0.33.0"
+    public static var userAgent: String?
 
     private let session: URLSession
     internal var authMethod: AuthenticationMethod
@@ -95,7 +66,9 @@ public struct RestRequest {
         var request = URLRequest(url: urlWithQuery)
         request.httpMethod = method
         request.httpBody = messageBody
-        request.setValue(RestRequest.userAgent, forHTTPHeaderField: "User-Agent")
+        if let userAgentHeader = RestRequest.userAgent {
+            request.setValue(userAgentHeader, forHTTPHeaderField: "User-Agent")
+        }
         headerParameters.forEach { (key, value) in request.setValue(value, forHTTPHeaderField: key) }
         return request
     }
