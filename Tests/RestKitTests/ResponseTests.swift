@@ -24,13 +24,16 @@ class ResponseTests: XCTestCase {
     var mockSession: URLSession!
 
     override func setUp() {
-        configuration = URLSessionConfiguration.ephemeral
+        configuration = URLSessionConfiguration.default
         configuration.protocolClasses = [MockURLProtocol.self]
         mockSession = URLSession(configuration: configuration)
     }
 
     static var allTests = [
         ("testDataCorruptedError", testDataCorruptedError),
+        ("testKeyNotFoundError", testKeyNotFoundError),
+        ("testTypeMismatchError", testTypeMismatchError),
+        ("testValueNotFoundError", testValueNotFoundError),
     ]
 
     // MARK: - Tests
