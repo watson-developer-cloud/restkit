@@ -230,7 +230,7 @@ extension RestRequest {
                 let values = "response JSON: value not found for \(keyPath): " + context.debugDescription
                 completionHandler(nil, RestError.serialization(values: values))
             } catch {
-                completionHandler(nil, RestError.serialization(values: "response JSON " + error.localizedDescription))
+                completionHandler(nil, RestError.serialization(values: "response JSON: " + error.localizedDescription))
             }
         }
     }

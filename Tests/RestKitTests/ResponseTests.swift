@@ -19,33 +19,23 @@ import RestKit
 
 class ResponseTests: XCTestCase {
 
+    // Mock URLSession
+    var configuration: URLSessionConfiguration!
+    var mockSession: URLSession!
+
+    override func setUp() {
+        configuration = URLSessionConfiguration.ephemeral
+        configuration.protocolClasses = [MockURLProtocol.self]
+        mockSession = URLSession(configuration: configuration)
+    }
+
     static var allTests = [
         ("testDataCorruptedError", testDataCorruptedError),
-        ]
+    ]
 
-    func errorResponseDecoder(data: Data, response: HTTPURLResponse) -> RestError {
-        let statusCode = response.statusCode
-        return RestError.http(statusCode: statusCode, message: "error message", metadata: nil)
-    }
-
-    // MARK: Decoding errors
-
-    class Document : Codable {
-        let id: String
-        let name: String?
-        let status: DocumentStatus?
-    }
-
-    class DocumentStatus : Codable {
-        let created: Date?
-        let updated: Date?
-    }
+    // MARK: - Tests
 
     func testDataCorruptedError() {
-        // Create mock session
-        let configuration = URLSessionConfiguration.ephemeral
-        configuration.protocolClasses = [MockURLProtocol.self]
-        let mockSession = URLSession(configuration: configuration)
         // Configure mock
         MockURLProtocol.requestHandler = { request in
             // Setup mock result
@@ -77,10 +67,6 @@ class ResponseTests: XCTestCase {
     }
 
     func testKeyNotFoundError() {
-        // Create mock session
-        let configuration = URLSessionConfiguration.ephemeral
-        configuration.protocolClasses = [MockURLProtocol.self]
-        let mockSession = URLSession(configuration: configuration)
         // Configure mock
         MockURLProtocol.requestHandler = { request in
             // Setup mock result
@@ -112,10 +98,6 @@ class ResponseTests: XCTestCase {
     }
 
     func testTypeMismatchError() {
-        // Create mock session
-        let configuration = URLSessionConfiguration.ephemeral
-        configuration.protocolClasses = [MockURLProtocol.self]
-        let mockSession = URLSession(configuration: configuration)
         // Configure mock
         MockURLProtocol.requestHandler = { request in
             // Setup mock result
@@ -147,10 +129,6 @@ class ResponseTests: XCTestCase {
     }
 
     func testValueNotFoundError() {
-        // Create mock session
-        let configuration = URLSessionConfiguration.ephemeral
-        configuration.protocolClasses = [MockURLProtocol.self]
-        let mockSession = URLSession(configuration: configuration)
         // Configure mock
         MockURLProtocol.requestHandler = { request in
             // Setup mock result
@@ -181,4 +159,22 @@ class ResponseTests: XCTestCase {
         waitForExpectations(timeout: 5)
     }
 
+
+    // MARK: - Helpers
+
+    class Document : Codable {
+        let id: String
+        let name: String?
+        let status: DocumentStatus?
+    }
+
+    class DocumentStatus : Codable {
+        let created: Date?
+        let updated: Date?
+    }
+
+    func errorResponseDecoder(data: Data, response: HTTPURLResponse) -> RestError {
+        let statusCode = response.statusCode
+        return RestError.http(statusCode: statusCode, message: "error message", metadata: nil)
+    }
 }
