@@ -214,8 +214,23 @@ extension RestRequest {
             do {
                 restResponse.result = try JSON.decoder.decode(T.self, from: data)
                 completionHandler(restResponse, nil)
+            } catch DecodingError.dataCorrupted(let context) {
+                let keyPath = context.codingPath.map{$0.stringValue}.joined(separator: ".")
+                let values = "response JSON: dataCorrupted at \(keyPath): " + context.debugDescription
+                completionHandler(nil, RestError.serialization(values: values))
+            } catch DecodingError.keyNotFound(let key, _) {
+                let values = "response JSON: key not found for \(key.stringValue)"
+                completionHandler(nil, RestError.serialization(values: values))
+            } catch DecodingError.typeMismatch(_, let context) {
+                let keyPath = context.codingPath.map{$0.stringValue}.joined(separator: ".")
+                let values = "response JSON: type mismatch for \(keyPath): " + context.debugDescription
+                completionHandler(nil, RestError.serialization(values: values))
+            } catch DecodingError.valueNotFound(_, let context) {
+                let keyPath = context.codingPath.map{$0.stringValue}.joined(separator: ".")
+                let values = "response JSON: value not found for \(keyPath): " + context.debugDescription
+                completionHandler(nil, RestError.serialization(values: values))
             } catch {
-                completionHandler(nil, RestError.serialization(values: "response JSON"))
+                completionHandler(nil, RestError.serialization(values: "response JSON: " + error.localizedDescription))
             }
         }
     }
