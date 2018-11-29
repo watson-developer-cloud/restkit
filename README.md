@@ -16,9 +16,9 @@ For more information on IBM Watson services, visit the [IBM Watson homepage](htt
 
 ## Requirements
 
-- iOS 8.0+
-- Xcode 9.0+
-- Swift 3.2+ or Swift 4.0+
+- Xcode 9.3+
+- Swift 4.1+
+- iOS 10.0+
 
 
 

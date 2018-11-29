@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
                               'Mike Kistler'    => 'mkistler@us.ibm.com' }
 
   s.module_name           = 'RestKit'
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '10.0'
   s.source                = { :git => 'https://github.com/watson-developer-cloud/restkit.git', :tag => s.version.to_s }
   
   s.source_files          = 'Sources/**/*.swift'
