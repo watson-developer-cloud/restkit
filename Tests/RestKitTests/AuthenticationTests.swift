@@ -31,9 +31,9 @@ class AuthenticationTests: XCTestCase {
         ("testIAMAuthentication", testIAMAuthentication),
     ]
 
-    internal static func errorResponseDecoder(data: Data, response: HTTPURLResponse) -> Error {
+    internal static func errorResponseDecoder(data: Data, response: HTTPURLResponse) -> RestError {
         let genericMessage = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
-        return RestError.failure(response.statusCode, genericMessage)
+        return RestError.http(statusCode: response.statusCode, message: genericMessage, metadata: nil)
     }
 
     var request = RestRequest(

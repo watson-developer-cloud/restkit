@@ -19,6 +19,10 @@
 		92048D8C212F5BEE004FD822 /* RestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D85212F5BEE004FD822 /* RestError.swift */; };
 		92048D8D212F5BEE004FD822 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D86212F5BEE004FD822 /* Authentication.swift */; };
 		92048D8E212F5BEE004FD822 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D87212F5BEE004FD822 /* JSON.swift */; };
+		92547736216BEFC8003C2829 /* RestErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92547735216BEFC8003C2829 /* RestErrorTests.swift */; };
+		92BF69BC213F4BD800FE6325 /* RestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BF69BB213F4BD800FE6325 /* RestResponse.swift */; };
+		CA17C8DE2190E33400677CA7 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA17C8DD2190E33400677CA7 /* MockURLProtocol.swift */; };
+		CA17C8E02191063800677CA7 /* ResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA17C8DF2191063800677CA7 /* ResponseTests.swift */; };
 		CA542769215558740035F8B6 /* MultiPartFormDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA542768215558740035F8B6 /* MultiPartFormDataTests.swift */; };
 		CA54276D2155763E0035F8B6 /* TestData.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA54276B215574380035F8B6 /* TestData.txt */; };
 /* End PBXBuildFile section */
@@ -49,6 +53,10 @@
 		92048D85212F5BEE004FD822 /* RestError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RestError.swift; path = RestKit/RestError.swift; sourceTree = "<group>"; };
 		92048D86212F5BEE004FD822 /* Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Authentication.swift; path = RestKit/Authentication.swift; sourceTree = "<group>"; };
 		92048D87212F5BEE004FD822 /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSON.swift; path = RestKit/JSON.swift; sourceTree = "<group>"; };
+		92547735216BEFC8003C2829 /* RestErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RestErrorTests.swift; path = RestKitTests/RestErrorTests.swift; sourceTree = "<group>"; };
+		92BF69BB213F4BD800FE6325 /* RestResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RestResponse.swift; path = RestKit/RestResponse.swift; sourceTree = "<group>"; };
+		CA17C8DD2190E33400677CA7 /* MockURLProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockURLProtocol.swift; path = RestKitTests/MockURLProtocol.swift; sourceTree = "<group>"; };
+		CA17C8DF2191063800677CA7 /* ResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ResponseTests.swift; path = RestKitTests/ResponseTests.swift; sourceTree = "<group>"; };
 		CA542768215558740035F8B6 /* MultiPartFormDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MultiPartFormDataTests.swift; path = RestKitTests/MultiPartFormDataTests.swift; sourceTree = "<group>"; };
 		CA54276B215574380035F8B6 /* TestData.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestData.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -100,6 +108,7 @@
 				92048D85212F5BEE004FD822 /* RestError.swift */,
 				92048D81212F5BEE004FD822 /* RestRequest.swift */,
 				92048D84212F5BEE004FD822 /* RestUtilities.swift */,
+				92BF69BB213F4BD800FE6325 /* RestResponse.swift */,
 				92048D60212F4B1F004FD822 /* Supporting Files */,
 			);
 			path = Sources;
@@ -111,7 +120,10 @@
 				92048D7C212F5BA2004FD822 /* AuthenticationTests.swift */,
 				92048D7D212F5BA2004FD822 /* CodableExtensionsTests.swift */,
 				92048D7B212F5BA2004FD822 /* JSONTests.swift */,
+				CA17C8DD2190E33400677CA7 /* MockURLProtocol.swift */,
 				CA542768215558740035F8B6 /* MultiPartFormDataTests.swift */,
+				CA17C8DF2191063800677CA7 /* ResponseTests.swift */,
+				92547735216BEFC8003C2829 /* RestErrorTests.swift */,
 				CA54276A215573F60035F8B6 /* Resources */,
 				92048D61212F4B47004FD822 /* Supporting Files */,
 			);
@@ -256,6 +268,7 @@
 			files = (
 				92048D8B212F5BEE004FD822 /* RestUtilities.swift in Sources */,
 				92048D8E212F5BEE004FD822 /* JSON.swift in Sources */,
+				92BF69BC213F4BD800FE6325 /* RestResponse.swift in Sources */,
 				92048D8C212F5BEE004FD822 /* RestError.swift in Sources */,
 				92048D89212F5BEE004FD822 /* MultipartFormData.swift in Sources */,
 				92048D88212F5BEE004FD822 /* RestRequest.swift in Sources */,
@@ -270,6 +283,9 @@
 			files = (
 				92048D7E212F5BA2004FD822 /* JSONTests.swift in Sources */,
 				92048D7F212F5BA2004FD822 /* AuthenticationTests.swift in Sources */,
+				92547736216BEFC8003C2829 /* RestErrorTests.swift in Sources */,
+				CA17C8E02191063800677CA7 /* ResponseTests.swift in Sources */,
+				CA17C8DE2190E33400677CA7 /* MockURLProtocol.swift in Sources */,
 				CA542769215558740035F8B6 /* MultiPartFormDataTests.swift in Sources */,
 				92048D80212F5BA2004FD822 /* CodableExtensionsTests.swift in Sources */,
 			);

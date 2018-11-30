@@ -17,7 +17,7 @@
 import Foundation
 
 /// An error from processing a network request or response.
-public enum RestError: Error {
+public enum RestError {
 
     /// No response was received from the server.
     case noResponse
@@ -25,24 +25,48 @@ public enum RestError: Error {
     /// No data was returned from the server.
     case noData
 
+    /// Failed to save the downloaded data.
+    /// The specified file may already exist or the disk may be full.
+    case saveData
+
     /// Failed to serialize value(s) to data.
-    case serializationError
+    case serialization(values: String)
 
     /// Failed to replace special characters in the
     /// URL path with percent encoded characters.
-    case encodingError
-
-    /// FileManager failed to handle the given file.
-    /// (The file may already exist or the disk may be full.)
-    case fileManagerError
-
-    /// Failed to load the given file.
-    case invalidFile
+    case urlEncoding(path: String)
 
     /// The request failed because the URL was malformed.
     case badURL
 
-    /// An HTTP error with a status code and description.
-    case failure(Int, String)
+    /// Generic HTTP error with a status code and description.
+    case http(statusCode: Int?, message: String?, metadata: [String: Any]?)
 
+    /// Error that does not fall under any other `RestError` category
+    case other(message: String?)
+}
+
+
+extension RestError: LocalizedError {
+
+    public var errorDescription: String? {
+        switch self {
+        case .noResponse:
+            return "No response was received from the server"
+        case .noData:
+            return "No data was returned by the server"
+        case .saveData:
+            return "Failed to save the downloaded data. The specified file may already exist or the disk may be full."
+        case .serialization(let values):
+            return "Failed to serialize " + values
+        case .urlEncoding(let path):
+            return "Failed to add percent encoding to \(path)"
+        case .badURL:
+            return "Malformed URL"
+        case .http(_, let message, _):
+            return message
+        case .other(let message):
+            return message
+        }
+    }
 }
