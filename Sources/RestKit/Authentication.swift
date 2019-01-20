@@ -293,6 +293,7 @@ public class IAMAuthentication: AuthenticationMethod {
                 completionHandler(nil, error)
                 return
             }
+            self.token = token
             completionHandler(token, nil)
         }
     }
@@ -315,6 +316,7 @@ public class IAMAuthentication: AuthenticationMethod {
                 completionHandler(nil, error)
                 return
             }
+            self.token = token
             completionHandler(token, nil)
         }
     }
