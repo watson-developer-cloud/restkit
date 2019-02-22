@@ -62,7 +62,7 @@ class ResponseTests: XCTestCase {
                 XCTFail("Expected error not received")
                 return
             }
-            let expected = "Failed to serialize response JSON: dataCorrupted at status.created: Date string does not match format expected by formatter."
+            let expected = "Failed to deserialize response JSON: dataCorrupted at status.created: Date string does not match format expected by formatter."
             XCTAssertEqual(expected, error.localizedDescription)
             expectation.fulfill()
         }
@@ -93,7 +93,7 @@ class ResponseTests: XCTestCase {
                 XCTFail("Expected error not received")
                 return
             }
-            let expected = "Failed to serialize response JSON: key not found for id"
+            let expected = "Failed to deserialize response JSON: key not found for id"
             XCTAssertEqual(expected, error.localizedDescription)
             expectation.fulfill()
         }
@@ -124,7 +124,7 @@ class ResponseTests: XCTestCase {
                 XCTFail("Expected error not received")
                 return
             }
-            let expected = "Failed to serialize response JSON: type mismatch for status.updated: Expected to decode String but found a number instead."
+            let expected = "Failed to deserialize response JSON: type mismatch for status.updated: Expected to decode String but found a number instead."
             XCTAssertEqual(expected, error.localizedDescription)
             expectation.fulfill()
         }
@@ -155,7 +155,7 @@ class ResponseTests: XCTestCase {
                 XCTFail("Expected error not received")
                 return
             }
-            let expected = "Failed to serialize response JSON: value not found for id: Expected String value but found null instead."
+            let expected = "Failed to deserialize response JSON: value not found for id: Expected String value but found null instead."
             XCTAssertEqual(expected, error.localizedDescription)
             expectation.fulfill()
         }

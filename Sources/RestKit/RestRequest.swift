@@ -171,7 +171,7 @@ extension RestRequest {
             } else if T.self == String.self {
                 // parse data as a string
                 guard let string = String(data: data, encoding: .utf8) else {
-                    completionHandler(restResponse, RestError.serialization(values: "response string"))
+                    completionHandler(restResponse, RestError.deserialization(values: "response string"))
                     return
                 }
                 restResponse.result = string as? T
@@ -217,20 +217,20 @@ extension RestRequest {
             } catch DecodingError.dataCorrupted(let context) {
                 let keyPath = context.codingPath.map{$0.stringValue}.joined(separator: ".")
                 let values = "response JSON: dataCorrupted at \(keyPath): " + context.debugDescription
-                completionHandler(nil, RestError.serialization(values: values))
+                completionHandler(nil, RestError.deserialization(values: values))
             } catch DecodingError.keyNotFound(let key, _) {
                 let values = "response JSON: key not found for \(key.stringValue)"
-                completionHandler(nil, RestError.serialization(values: values))
+                completionHandler(nil, RestError.deserialization(values: values))
             } catch DecodingError.typeMismatch(_, let context) {
                 let keyPath = context.codingPath.map{$0.stringValue}.joined(separator: ".")
                 let values = "response JSON: type mismatch for \(keyPath): " + context.debugDescription
-                completionHandler(nil, RestError.serialization(values: values))
+                completionHandler(nil, RestError.deserialization(values: values))
             } catch DecodingError.valueNotFound(_, let context) {
                 let keyPath = context.codingPath.map{$0.stringValue}.joined(separator: ".")
                 let values = "response JSON: value not found for \(keyPath): " + context.debugDescription
-                completionHandler(nil, RestError.serialization(values: values))
+                completionHandler(nil, RestError.deserialization(values: values))
             } catch {
-                completionHandler(nil, RestError.serialization(values: "response JSON: " + error.localizedDescription))
+                completionHandler(nil, RestError.deserialization(values: "response JSON: " + error.localizedDescription))
             }
         }
     }
