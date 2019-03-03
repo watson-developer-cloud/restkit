@@ -32,6 +32,9 @@ public enum RestError {
     /// Failed to serialize value(s) to data.
     case serialization(values: String)
 
+    /// Failed to deserialize value(s) to data.
+    case deserialization(values: String)
+
     /// Failed to replace special characters in the
     /// URL path with percent encoded characters.
     case urlEncoding(path: String)
@@ -59,6 +62,8 @@ extension RestError: LocalizedError {
             return "Failed to save the downloaded data. The specified file may already exist or the disk may be full."
         case .serialization(let values):
             return "Failed to serialize " + values
+        case .deserialization(let values):
+            return "Failed to deserialize " + values
         case .urlEncoding(let path):
             return "Failed to add percent encoding to \(path)"
         case .badURL:
