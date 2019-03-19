@@ -151,13 +151,19 @@ extension RestRequest {
         // execute the request
         execute { data, response, error in
 
-            // ensure there is no underlying error
-            guard let response = response, error == nil else {
-                completionHandler(nil, error ?? RestError.noResponse)
+            // Check for response
+            guard let response = response else {
+                completionHandler(nil, RestError.noResponse)
                 return
             }
 
             var restResponse = RestResponse<T>(response: response)
+
+            // Check for service error
+            if let error = error {
+                completionHandler(restResponse, error)
+                return
+            }
 
             // ensure there is data to parse
             guard let data = data else {
@@ -196,13 +202,19 @@ extension RestRequest {
         // execute the request
         execute { data, response, error in
 
-            // ensure there is no underlying error
-            guard let response = response, error == nil else {
-                completionHandler(nil, error ?? RestError.noResponse)
+            // Check for response
+            guard let response = response else {
+                completionHandler(nil, RestError.noResponse)
                 return
             }
 
             var restResponse = RestResponse<T>(response: response)
+
+            // Check for service error
+            if let error = error {
+                completionHandler(restResponse, error)
+                return
+            }
 
             // ensure there is data to parse
             guard let data = data else {
@@ -246,13 +258,19 @@ extension RestRequest {
         // execute the request
         execute { _, response, error in
 
-            // ensure there is no underlying error
-            guard let response = response, error == nil else {
-                completionHandler(nil, error ?? RestError.noResponse)
+            // Check for response
+            guard let response = response else {
+                completionHandler(nil, RestError.noResponse)
                 return
             }
 
             let restResponse = RestResponse<Void>(response: response)
+
+            // Check for service error
+            if let error = error {
+                completionHandler(restResponse, error)
+                return
+            }
 
             // execute completion handler
             completionHandler(restResponse, nil)
