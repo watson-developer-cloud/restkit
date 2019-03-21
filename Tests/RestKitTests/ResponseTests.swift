@@ -194,6 +194,26 @@ class ResponseTests: XCTestCase {
         waitForExpectations(timeout: 5)
     }
 
+    func testBadURL() {
+        let request = RestRequest(
+            session: mockSession,
+            authMethod: BasicAuthentication(username: "username", password: "password"),
+            errorResponseDecoder: errorResponseDecoder,
+            method: "POST",
+            url: "not valid",
+            headerParameters: [:]
+        )
+
+        let expectation = self.expectation(description: #function)
+        request.responseObject { (response: RestResponse<Document>?, error: RestError?) in
+            guard case .some(.badURL) = error else {
+                XCTFail("Expected error not received")
+                return
+            }
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 5)
+    }
 
     // MARK: - Helpers
 

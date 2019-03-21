@@ -153,7 +153,7 @@ extension RestRequest {
 
             // Check for response
             guard let response = response else {
-                completionHandler(nil, RestError.noResponse)
+                completionHandler(nil, error ?? RestError.noResponse)
                 return
             }
 
@@ -204,7 +204,7 @@ extension RestRequest {
 
             // Check for response
             guard let response = response else {
-                completionHandler(nil, RestError.noResponse)
+                completionHandler(nil, error ?? RestError.noResponse)
                 return
             }
 
@@ -260,7 +260,7 @@ extension RestRequest {
 
             // Check for response
             guard let response = response else {
-                completionHandler(nil, RestError.noResponse)
+                completionHandler(nil, error ?? RestError.noResponse)
                 return
             }
 
