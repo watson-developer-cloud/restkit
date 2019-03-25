@@ -46,7 +46,7 @@ public enum RestError {
     case http(statusCode: Int?, message: String?, metadata: [String: Any]?)
 
     /// Error that does not fall under any other `RestError` category
-    case other(message: String?)
+    case other(message: String?, metadata: [String: Any]?)
 }
 
 
@@ -70,7 +70,7 @@ extension RestError: LocalizedError {
             return "Malformed URL"
         case .http(_, let message, _):
             return message
-        case .other(let message):
+        case .other(let message, _):
             return message
         }
     }
