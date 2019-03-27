@@ -173,6 +173,7 @@
 			buildConfigurationList = 92048D5A212F49C8004FD822 /* Build configuration list for PBXNativeTarget "RestKit" */;
 			buildPhases = (
 				92048D41212F49C8004FD822 /* Sources */,
+				CA59FDEB224C0AF100E152AE /* Run Swiftlint */,
 				92048D42212F49C8004FD822 /* Frameworks */,
 				92048D43212F49C8004FD822 /* Headers */,
 				92048D44212F49C8004FD822 /* Resources */,
@@ -259,6 +260,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		CA59FDEB224C0AF100E152AE /* Run Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Swiftlint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --config \"${PROJECT_DIR}/.swiftlint.yml\" --no-cache --path Sources\nelse\n    echo \"SwiftLint is not available. Install SwiftLint to obtain linter results. See https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		92048D41212F49C8004FD822 /* Sources */ = {

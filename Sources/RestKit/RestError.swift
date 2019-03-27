@@ -49,7 +49,6 @@ public enum RestError {
     case other(message: String?, metadata: [String: Any]?)
 }
 
-
 extension RestError: LocalizedError {
 
     public var errorDescription: String? {
