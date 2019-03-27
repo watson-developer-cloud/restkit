@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2016-2017
+ * Copyright IBM Corporation 2016, 2019
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -151,13 +151,19 @@ extension RestRequest {
         // execute the request
         execute { data, response, error in
 
-            // ensure there is no underlying error
-            guard let response = response, error == nil else {
+            // Check for response
+            guard let response = response else {
                 completionHandler(nil, error ?? RestError.noResponse)
                 return
             }
 
             var restResponse = RestResponse<T>(response: response)
+
+            // Check for service error
+            if let error = error {
+                completionHandler(restResponse, error)
+                return
+            }
 
             // ensure there is data to parse
             guard let data = data else {
@@ -171,7 +177,7 @@ extension RestRequest {
             } else if T.self == String.self {
                 // parse data as a string
                 guard let string = String(data: data, encoding: .utf8) else {
-                    completionHandler(restResponse, RestError.serialization(values: "response string"))
+                    completionHandler(restResponse, RestError.deserialization(values: "response string"))
                     return
                 }
                 restResponse.result = string as? T
@@ -196,13 +202,19 @@ extension RestRequest {
         // execute the request
         execute { data, response, error in
 
-            // ensure there is no underlying error
-            guard let response = response, error == nil else {
+            // Check for response
+            guard let response = response else {
                 completionHandler(nil, error ?? RestError.noResponse)
                 return
             }
 
             var restResponse = RestResponse<T>(response: response)
+
+            // Check for service error
+            if let error = error {
+                completionHandler(restResponse, error)
+                return
+            }
 
             // ensure there is data to parse
             guard let data = data else {
@@ -217,20 +229,20 @@ extension RestRequest {
             } catch DecodingError.dataCorrupted(let context) {
                 let keyPath = context.codingPath.map{$0.stringValue}.joined(separator: ".")
                 let values = "response JSON: dataCorrupted at \(keyPath): " + context.debugDescription
-                completionHandler(nil, RestError.serialization(values: values))
+                completionHandler(nil, RestError.deserialization(values: values))
             } catch DecodingError.keyNotFound(let key, _) {
                 let values = "response JSON: key not found for \(key.stringValue)"
-                completionHandler(nil, RestError.serialization(values: values))
+                completionHandler(nil, RestError.deserialization(values: values))
             } catch DecodingError.typeMismatch(_, let context) {
                 let keyPath = context.codingPath.map{$0.stringValue}.joined(separator: ".")
                 let values = "response JSON: type mismatch for \(keyPath): " + context.debugDescription
-                completionHandler(nil, RestError.serialization(values: values))
+                completionHandler(nil, RestError.deserialization(values: values))
             } catch DecodingError.valueNotFound(_, let context) {
                 let keyPath = context.codingPath.map{$0.stringValue}.joined(separator: ".")
                 let values = "response JSON: value not found for \(keyPath): " + context.debugDescription
-                completionHandler(nil, RestError.serialization(values: values))
+                completionHandler(nil, RestError.deserialization(values: values))
             } catch {
-                completionHandler(nil, RestError.serialization(values: "response JSON: " + error.localizedDescription))
+                completionHandler(nil, RestError.deserialization(values: "response JSON: " + error.localizedDescription))
             }
         }
     }
@@ -246,13 +258,19 @@ extension RestRequest {
         // execute the request
         execute { _, response, error in
 
-            // ensure there is no underlying error
-            guard let response = response, error == nil else {
+            // Check for response
+            guard let response = response else {
                 completionHandler(nil, error ?? RestError.noResponse)
                 return
             }
 
             let restResponse = RestResponse<Void>(response: response)
+
+            // Check for service error
+            if let error = error {
+                completionHandler(restResponse, error)
+                return
+            }
 
             // execute completion handler
             completionHandler(restResponse, nil)

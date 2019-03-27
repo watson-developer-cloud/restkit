@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2016-2017
+ * Copyright IBM Corporation 2016, 2019
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,9 @@ public enum RestError {
     /// Failed to serialize value(s) to data.
     case serialization(values: String)
 
+    /// Failed to deserialize value(s) to data.
+    case deserialization(values: String)
+
     /// Failed to replace special characters in the
     /// URL path with percent encoded characters.
     case urlEncoding(path: String)
@@ -43,9 +46,8 @@ public enum RestError {
     case http(statusCode: Int?, message: String?, metadata: [String: Any]?)
 
     /// Error that does not fall under any other `RestError` category
-    case other(message: String?)
+    case other(message: String?, metadata: [String: Any]?)
 }
-
 
 extension RestError: LocalizedError {
 
@@ -59,13 +61,15 @@ extension RestError: LocalizedError {
             return "Failed to save the downloaded data. The specified file may already exist or the disk may be full."
         case .serialization(let values):
             return "Failed to serialize " + values
+        case .deserialization(let values):
+            return "Failed to deserialize " + values
         case .urlEncoding(let path):
             return "Failed to add percent encoding to \(path)"
         case .badURL:
             return "Malformed URL"
         case .http(_, let message, _):
             return message
-        case .other(let message):
+        case .other(let message, _):
             return message
         }
     }

@@ -15,7 +15,6 @@
 		92048D88212F5BEE004FD822 /* RestRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D81212F5BEE004FD822 /* RestRequest.swift */; };
 		92048D89212F5BEE004FD822 /* MultipartFormData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D82212F5BEE004FD822 /* MultipartFormData.swift */; };
 		92048D8A212F5BEE004FD822 /* CodableExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D83212F5BEE004FD822 /* CodableExtensions.swift */; };
-		92048D8B212F5BEE004FD822 /* RestUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D84212F5BEE004FD822 /* RestUtilities.swift */; };
 		92048D8C212F5BEE004FD822 /* RestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D85212F5BEE004FD822 /* RestError.swift */; };
 		92048D8D212F5BEE004FD822 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D86212F5BEE004FD822 /* Authentication.swift */; };
 		92048D8E212F5BEE004FD822 /* JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D87212F5BEE004FD822 /* JSON.swift */; };
@@ -49,7 +48,6 @@
 		92048D81212F5BEE004FD822 /* RestRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RestRequest.swift; path = RestKit/RestRequest.swift; sourceTree = "<group>"; };
 		92048D82212F5BEE004FD822 /* MultipartFormData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultipartFormData.swift; path = RestKit/MultipartFormData.swift; sourceTree = "<group>"; };
 		92048D83212F5BEE004FD822 /* CodableExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CodableExtensions.swift; path = RestKit/CodableExtensions.swift; sourceTree = "<group>"; };
-		92048D84212F5BEE004FD822 /* RestUtilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RestUtilities.swift; path = RestKit/RestUtilities.swift; sourceTree = "<group>"; };
 		92048D85212F5BEE004FD822 /* RestError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RestError.swift; path = RestKit/RestError.swift; sourceTree = "<group>"; };
 		92048D86212F5BEE004FD822 /* Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Authentication.swift; path = RestKit/Authentication.swift; sourceTree = "<group>"; };
 		92048D87212F5BEE004FD822 /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSON.swift; path = RestKit/JSON.swift; sourceTree = "<group>"; };
@@ -57,8 +55,10 @@
 		92BF69BB213F4BD800FE6325 /* RestResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RestResponse.swift; path = RestKit/RestResponse.swift; sourceTree = "<group>"; };
 		CA17C8DD2190E33400677CA7 /* MockURLProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MockURLProtocol.swift; path = RestKitTests/MockURLProtocol.swift; sourceTree = "<group>"; };
 		CA17C8DF2191063800677CA7 /* ResponseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ResponseTests.swift; path = RestKitTests/ResponseTests.swift; sourceTree = "<group>"; };
+		CA1CD62421F5180D00CDCEA2 /* TestCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCredentials.swift; sourceTree = "<group>"; };
 		CA542768215558740035F8B6 /* MultiPartFormDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MultiPartFormDataTests.swift; path = RestKitTests/MultiPartFormDataTests.swift; sourceTree = "<group>"; };
 		CA54276B215574380035F8B6 /* TestData.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestData.txt; sourceTree = "<group>"; };
+		CA59FDAA224BDAC900E152AE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +83,7 @@
 		92048D3C212F49C8004FD822 = {
 			isa = PBXGroup;
 			children = (
+				CA59FDAA224BDAC900E152AE /* README.md */,
 				92048D48212F49C8004FD822 /* Sources */,
 				92048D53212F49C8004FD822 /* Tests */,
 				92048D47212F49C8004FD822 /* Products */,
@@ -107,7 +108,6 @@
 				92048D82212F5BEE004FD822 /* MultipartFormData.swift */,
 				92048D85212F5BEE004FD822 /* RestError.swift */,
 				92048D81212F5BEE004FD822 /* RestRequest.swift */,
-				92048D84212F5BEE004FD822 /* RestUtilities.swift */,
 				92BF69BB213F4BD800FE6325 /* RestResponse.swift */,
 				92048D60212F4B1F004FD822 /* Supporting Files */,
 			);
@@ -143,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				92048D56212F49C8004FD822 /* Info.plist */,
+				CA1CD62421F5180D00CDCEA2 /* TestCredentials.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -174,6 +175,7 @@
 			buildConfigurationList = 92048D5A212F49C8004FD822 /* Build configuration list for PBXNativeTarget "RestKit" */;
 			buildPhases = (
 				92048D41212F49C8004FD822 /* Sources */,
+				CA59FDEB224C0AF100E152AE /* Run Swiftlint */,
 				92048D42212F49C8004FD822 /* Frameworks */,
 				92048D43212F49C8004FD822 /* Headers */,
 				92048D44212F49C8004FD822 /* Resources */,
@@ -261,12 +263,32 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		CA59FDEB224C0AF100E152AE /* Run Swiftlint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Run Swiftlint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint lint --config \"${PROJECT_DIR}/.swiftlint.yml\" --no-cache --path Sources\nelse\n    echo \"SwiftLint is not available. Install SwiftLint to obtain linter results. See https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		92048D41212F49C8004FD822 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				92048D8B212F5BEE004FD822 /* RestUtilities.swift in Sources */,
 				92048D8E212F5BEE004FD822 /* JSON.swift in Sources */,
 				92BF69BC213F4BD800FE6325 /* RestResponse.swift in Sources */,
 				92048D8C212F5BEE004FD822 /* RestError.swift in Sources */,

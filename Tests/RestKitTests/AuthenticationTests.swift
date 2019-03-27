@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2018
+ * Copyright IBM Corporation 2018, 2019
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -187,6 +187,8 @@ class AuthenticationTests: XCTestCase {
         // 1. Set `IAMToken` access level to `internal`
         // 2. Set `IAMAuthentication.token` access level to `internal`
         // 3. Uncomment the code below
+        // 4. Add credentials to TestCredentials.swift in Supporting Files folder
+        // 5. Add TestCredentials.swift to the RestKitTests target
 
         // The `private` access level of the properties and functions in `IAMAuthentication` prohibit us from
         // modifying/calling them directly. As a result, this is hard to test properly (particularly token refresh).
@@ -195,7 +197,7 @@ class AuthenticationTests: XCTestCase {
 
         /**
 
-        let authMethod = IAMAuthentication(apiKey: WatsonCredentials.IAMAPIKey, url: WatsonCredentials.IAMURL)
+        let authMethod = IAMAuthentication(apiKey: TestCredentials.IAMAPIKey, url: TestCredentials.IAMURL)
         var authorizationHeader: String! // save initial authorization header (it should stay the same until refreshed)
         request.authMethod = authMethod
 
@@ -213,6 +215,8 @@ class AuthenticationTests: XCTestCase {
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 5)
+
+        sleep(1) // sleep for 1 second to make sure the unix time stamp increments
 
         // use the same iam token
         let expectation2 = self.expectation(description: "use the same iam token")

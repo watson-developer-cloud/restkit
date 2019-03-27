@@ -17,7 +17,7 @@ For more information on IBM Watson services, visit the [IBM Watson homepage](htt
 ## Requirements
 
 - Xcode 9.3+
-- Swift 4.1+
+- Swift 4.2+
 - iOS 10.0+
 
 
@@ -40,7 +40,7 @@ If your project does not yet have a Podfile, use the `pod init` command in the r
 use_frameworks!
 
 target 'MyApp' do
-    pod 'RestKit', '~> 2.0'
+    pod 'IBMWatsonRestKit', '~> 3.0'
 end
 ```
 
@@ -60,7 +60,7 @@ $ brew install carthage
 If your project does not have a Cartfile yet, use the `touch Cartfile` command in the root directory of your project. To install RestKit using Carthage, add the following to your Cartfile. 
 
 ```
-github "watson-developer-cloud/restkit" ~> 2.0
+github "watson-developer-cloud/restkit" ~> 3.0
 ```
 
 Then run the following command to build the dependencies and frameworks:
@@ -77,7 +77,7 @@ Add the following to your `Package.swift` file to identify RestKit as a dependen
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/watson-developer-cloud/restkit", from: "2.0")
+    .package(url: "https://github.com/watson-developer-cloud/restkit", from: "3.0")
 ]
 ```
 

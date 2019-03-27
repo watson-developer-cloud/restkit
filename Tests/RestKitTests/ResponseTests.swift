@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2018
+ * Copyright IBM Corporation 2018, 2019
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,7 +62,7 @@ class ResponseTests: XCTestCase {
                 XCTFail("Expected error not received")
                 return
             }
-            let expected = "Failed to serialize response JSON: dataCorrupted at status.created: Date string does not match format expected by formatter."
+            let expected = "Failed to deserialize response JSON: dataCorrupted at status.created: Date string does not match format expected by formatter."
             XCTAssertEqual(expected, error.localizedDescription)
             expectation.fulfill()
         }
@@ -93,7 +93,7 @@ class ResponseTests: XCTestCase {
                 XCTFail("Expected error not received")
                 return
             }
-            let expected = "Failed to serialize response JSON: key not found for id"
+            let expected = "Failed to deserialize response JSON: key not found for id"
             XCTAssertEqual(expected, error.localizedDescription)
             expectation.fulfill()
         }
@@ -124,7 +124,7 @@ class ResponseTests: XCTestCase {
                 XCTFail("Expected error not received")
                 return
             }
-            let expected = "Failed to serialize response JSON: type mismatch for status.updated: Expected to decode String but found a number instead."
+            let expected = "Failed to deserialize response JSON: type mismatch for status.updated: Expected to decode String but found a number instead."
             XCTAssertEqual(expected, error.localizedDescription)
             expectation.fulfill()
         }
@@ -155,13 +155,65 @@ class ResponseTests: XCTestCase {
                 XCTFail("Expected error not received")
                 return
             }
-            let expected = "Failed to serialize response JSON: value not found for id: Expected String value but found null instead."
+            let expected = "Failed to deserialize response JSON: value not found for id: Expected String value but found null instead."
             XCTAssertEqual(expected, error.localizedDescription)
             expectation.fulfill()
         }
         waitForExpectations(timeout: 5)
     }
 
+    func testErrorHeaders() {
+        let headers = ["foo": "bar" ]
+        // Configure mock
+        MockURLProtocol.requestHandler = { request in
+            // Setup mock result
+            let response = HTTPURLResponse(url: request.url!, statusCode: 400, httpVersion: nil, headerFields: headers)!
+            let data = "{ \"code\": \"42\", \"message\": \"Error with code 42\" }".data(using: .utf8)
+            return (response, data)
+        }
+
+        let request = RestRequest(
+            session: mockSession,
+            authMethod: BasicAuthentication(username: "username", password: "password"),
+            errorResponseDecoder: errorResponseDecoder,
+            method: "POST",
+            url: "http://restkit.com/response_tests/test_value_not_found_error",
+            headerParameters: [:]
+        )
+
+        let expectation = self.expectation(description: #function)
+        request.responseObject { (response: RestResponse<Document>?, error: RestError?) in
+            XCTAssertNotNil(error)
+            guard let response = response else {
+                XCTFail("Expected response not received")
+                return
+            }
+            XCTAssertEqual(headers, response.headers)
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 5)
+    }
+
+    func testBadURL() {
+        let request = RestRequest(
+            session: mockSession,
+            authMethod: BasicAuthentication(username: "username", password: "password"),
+            errorResponseDecoder: errorResponseDecoder,
+            method: "POST",
+            url: "not valid",
+            headerParameters: [:]
+        )
+
+        let expectation = self.expectation(description: #function)
+        request.responseObject { (response: RestResponse<Document>?, error: RestError?) in
+            guard case .some(.badURL) = error else {
+                XCTFail("Expected error not received")
+                return
+            }
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 5)
+    }
 
     // MARK: - Helpers
 
