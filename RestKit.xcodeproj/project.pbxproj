@@ -58,6 +58,7 @@
 		CA1CD62421F5180D00CDCEA2 /* TestCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCredentials.swift; sourceTree = "<group>"; };
 		CA542768215558740035F8B6 /* MultiPartFormDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MultiPartFormDataTests.swift; path = RestKitTests/MultiPartFormDataTests.swift; sourceTree = "<group>"; };
 		CA54276B215574380035F8B6 /* TestData.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestData.txt; sourceTree = "<group>"; };
+		CA59FDAA224BDAC900E152AE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +83,7 @@
 		92048D3C212F49C8004FD822 = {
 			isa = PBXGroup;
 			children = (
+				CA59FDAA224BDAC900E152AE /* README.md */,
 				92048D48212F49C8004FD822 /* Sources */,
 				92048D53212F49C8004FD822 /* Tests */,
 				92048D47212F49C8004FD822 /* Products */,
