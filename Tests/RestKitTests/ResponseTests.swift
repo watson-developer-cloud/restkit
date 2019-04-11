@@ -34,6 +34,9 @@ class ResponseTests: XCTestCase {
         ("testKeyNotFoundError", testKeyNotFoundError),
         ("testTypeMismatchError", testTypeMismatchError),
         ("testValueNotFoundError", testValueNotFoundError),
+        ("testErrorHeaders", testErrorHeaders),
+        ("testBadURL", testBadURL),
+        ("testIAMErrorResponse", testIAMErrorResponse),
     ]
 
     // MARK: - Tests
@@ -210,6 +213,33 @@ class ResponseTests: XCTestCase {
                 XCTFail("Expected error not received")
                 return
             }
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 5)
+    }
+
+    func testIAMErrorResponse() {
+        // Configure mock
+        MockURLProtocol.requestHandler = { request in
+            // Setup mock result
+            let response = HTTPURLResponse(url: request.url!, statusCode: 400, httpVersion: nil, headerFields: nil)!
+            let data = "{ \"errorCode\": \"BXNIM0415E\", \"errorMessage\": \"Provided API key could not be found\" }".data(using: .utf8)
+            return (response, data)
+        }
+
+        let request = RestRequest(
+            session: mockSession,
+            authMethod: IAMAuthentication(apiKey: "bogus"),
+            errorResponseDecoder: errorResponseDecoder,
+            method: "POST",
+            url: "http://restkit.com/response_tests/test_value_not_found_error",
+            headerParameters: [:]
+        )
+
+        let expectation = self.expectation(description: #function)
+        request.responseObject { (response: RestResponse<Document>?, error: RestError?) in
+            XCTAssertNotNil(error)
+            XCTAssertEqual("Provided API key could not be found", error?.localizedDescription)
             expectation.fulfill()
         }
         waitForExpectations(timeout: 5)

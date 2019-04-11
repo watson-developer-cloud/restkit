@@ -231,8 +231,23 @@ public class IAMAuthentication: AuthenticationMethod {
     }
 
     internal func errorResponseDecoder(data: Data, response: HTTPURLResponse) -> RestError {
-        let genericMessage = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
-        return RestError.http(statusCode: response.statusCode, message: genericMessage, metadata: nil)
+        var errorMessage: String?
+        var metadata = [String: Any]()
+
+        do {
+            let json = try JSON.decoder.decode([String: JSON].self, from: data)
+            metadata["response"] = json
+            if case let .some(.string(message)) = json["errorMessage"] {
+                errorMessage = message
+            } else {
+                errorMessage = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
+            }
+        } catch {
+            metadata["response"] = data
+            errorMessage = HTTPURLResponse.localizedString(forStatusCode: response.statusCode)
+        }
+
+        return RestError.http(statusCode: response.statusCode, message: errorMessage, metadata: metadata)
     }
 
     public func authenticate(request: RestRequest, completionHandler: @escaping (RestRequest?, RestError?) -> Void) {

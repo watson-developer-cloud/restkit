@@ -1,4 +1,10 @@
 
+## 3.0.1 (https://github.com/watson-developer-cloud/restkit/compare/3.0.0...3.0.1) (2019-04-11)
+
+### Bug Fixes
+
+    * Improve error response handling for IAM authentication (57c534f (https://github.com/watson-developer-cloud/restkit/commit/57c534f))
+
 # [3.0.0](https://github.com/watson-developer-cloud/restkit/compare/2.0.0...3.0.0) (2019-03-28)
 
 ### Features
