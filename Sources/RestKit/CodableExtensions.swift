@@ -23,7 +23,7 @@ import Foundation
 public extension JSONEncoder {
 
     /// Encode an optional object.
-    public func encodeIfPresent<T: Encodable>(_ value: T?) throws -> Data {
+    func encodeIfPresent<T: Encodable>(_ value: T?) throws -> Data {
         guard let value = value else { return Data() }
         return try encode(value)
     }
@@ -37,7 +37,7 @@ public extension JSONEncoder {
 public extension KeyedEncodingContainer where Key == DynamicKeys {
 
     /// Encode additional properties.
-    public mutating func encode(_ additionalProperties: [String: JSON]) throws {
+    mutating func encode(_ additionalProperties: [String: JSON]) throws {
         try additionalProperties.forEach { key, value in
             guard let codingKey = DynamicKeys(stringValue: key) else {
                 let description = "Cannot construct CodingKey for \(key)"
@@ -49,7 +49,7 @@ public extension KeyedEncodingContainer where Key == DynamicKeys {
     }
 
     /// Encode additional properties if they are not nil.
-    public mutating func encodeIfPresent(_ additionalProperties: [String: JSON]?) throws {
+    mutating func encodeIfPresent(_ additionalProperties: [String: JSON]?) throws {
         guard let additionalProperties = additionalProperties else { return }
         try encode(additionalProperties)
     }
@@ -63,7 +63,7 @@ public extension KeyedEncodingContainer where Key == DynamicKeys {
 public extension KeyedDecodingContainer where Key == DynamicKeys {
 
     /// Decode additional properties.
-    public func decode(_ type: [String: JSON].Type, excluding keys: [CodingKey]) throws -> [String: JSON] {
+    func decode(_ type: [String: JSON].Type, excluding keys: [CodingKey]) throws -> [String: JSON] {
         let value = try JSON(from: self, excluding: keys)
         guard case let .object(object) = value else {
             let description = "Expected to decode a JSONValue.object but found \(value) instead."
