@@ -21,12 +21,21 @@ import XCTest
 
 class AuthenticationTests: XCTestCase {
 
+    var mockSession: URLSession! {
+        let configuration = URLSessionConfiguration.default
+        configuration.protocolClasses = [MockURLProtocol.self]
+        return URLSession(configuration: configuration)
+    }
+
     static var allTests = [
         ("testNoAuthentication", testNoAuthentication),
         ("testBasicAuthentication", testBasicAuthentication),
         ("testAPIKeyAuthenticationHeader", testAPIKeyAuthenticationHeader),
         ("testAPIKeyAuthenticationQuery", testAPIKeyAuthenticationQuery),
         ("testIAMAccessToken", testIAMAccessToken),
+        ("testIAMDefaultClientIDAndSecret", testIAMDefaultClientIDAndSecret),
+        ("testIAMClientIDAndSecret", testIAMClientIDAndSecret),
+        ("testIAMGetAccessToken", testIAMGetAccessToken),
         ("testIAMToken", testIAMToken),
         ("testIAMAuthentication", testIAMAuthentication),
     ]
@@ -111,6 +120,45 @@ class AuthenticationTests: XCTestCase {
             XCTAssertEqual(self.request.queryItems, request.queryItems)
             XCTAssertEqual(self.request.messageBody, request.messageBody)
         }
+    }
+
+    func testIAMDefaultClientIDAndSecret() {
+        let authMethod = IAMAuthentication(apiKey: "api-key")
+        XCTAssertEqual("bx", authMethod.clientID)
+        XCTAssertEqual("bx", authMethod.clientSecret)
+    }
+
+    func testIAMClientIDAndSecret() {
+        let authMethod = IAMAuthentication(apiKey: "api-key", clientID: "not-bx", clientSecret: "also-not-bx")
+        XCTAssertEqual("not-bx", authMethod.clientID)
+        XCTAssertEqual("also-not-bx", authMethod.clientSecret)
+    }
+
+    func testIAMGetAccessToken() {
+        MockURLProtocol.requestHandler = { request in
+            XCTAssertEqual(request.httpMethod, "POST")
+            XCTAssertNotNil(request.allHTTPHeaderFields)
+            XCTAssertTrue(request.allHTTPHeaderFields?.keys.contains("Authorization") ?? false)
+            XCTAssertEqual(request.allHTTPHeaderFields?["Authorization"], "Basic Yng6Yng=") // "bx:bx"
+
+            // Setup mock result
+            let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
+            let data = "{ \"access_token\": \"access_token\", \"refresh_token\": \"refresh_token\", \"token_type\": \"token_type\", \"expires_in\": 42, \"expiration\": 999}".data(using: .utf8)
+            return (response, data)
+        }
+
+        let authMethod = IAMAuthentication(apiKey: "api-key")
+        authMethod.session = mockSession
+        request.authMethod = authMethod
+        let expectation = self.expectation(description: "testIAMClientIDAndSecret")
+        request.authMethod.authenticate(request: request) { request, error in
+            guard let request = request, error == nil else { XCTFail(error!.localizedDescription); return }
+            XCTAssertEqual(self.request.method, request.method)
+            XCTAssertEqual(self.request.url, request.url)
+            XCTAssertEqual(request.headerParameters["Authorization"], "Bearer access_token")
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 5)
     }
 
     func testIAMToken() {

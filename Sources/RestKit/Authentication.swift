@@ -215,18 +215,18 @@ public class IAMAccessToken: AuthenticationMethod {
 /** Authenticate with an IAM API key. The API key is used to automatically retrieve and refresh access tokens. */
 public class IAMAuthentication: AuthenticationMethod {
 
-    private let apiKey: String
-    private let url: String
+    internal let apiKey: String
+    internal let url: String
+    internal let clientID: String
+    internal let clientSecret: String
     private var token: IAMToken?
-    private let session = URLSession(configuration: URLSessionConfiguration.default)
+    internal var session = URLSession(configuration: URLSessionConfiguration.default)
 
-    public init(apiKey: String, url: String? = nil) {
+    public init(apiKey: String, url: String? = nil, clientID: String? = nil, clientSecret: String? = nil) {
         self.apiKey = apiKey
-        if let url = url {
-            self.url = url
-        } else {
-            self.url = "https://iam.bluemix.net/identity/token"
-        }
+        self.url = url ?? "https://iam.cloud.ibm.com/identity/token"
+        self.clientID = clientID ?? "bx"
+        self.clientSecret = clientSecret ?? "bx"
         self.token = nil
     }
 
@@ -296,7 +296,7 @@ public class IAMAuthentication: AuthenticationMethod {
         let form = ["grant_type=urn:ibm:params:oauth:grant-type:apikey", "apikey=\(apiKey)", "response_type=cloud_iam"]
         let request = RestRequest(
             session: session,
-            authMethod: BasicAuthentication(username: "bx", password: "bx"),
+            authMethod: BasicAuthentication(username: self.clientID, password: self.clientSecret),
             errorResponseDecoder: errorResponseDecoder,
             method: "POST",
             url: url,
@@ -319,7 +319,7 @@ public class IAMAuthentication: AuthenticationMethod {
         let form = ["grant_type=refresh_token", "refresh_token=\(token.refreshToken)"]
         let request = RestRequest(
             session: session,
-            authMethod: BasicAuthentication(username: "bx", password: "bx"),
+            authMethod: BasicAuthentication(username: self.clientID, password: self.clientSecret),
             errorResponseDecoder: errorResponseDecoder,
             method: "POST",
             url: url,
