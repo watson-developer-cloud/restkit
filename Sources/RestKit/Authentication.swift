@@ -225,7 +225,7 @@ public class IAMAuthentication: AuthenticationMethod {
         if let url = url {
             self.url = url
         } else {
-            self.url = "https://iam.bluemix.net/identity/token"
+            self.url = "https://iam.cloud.ibm.com/identity/token"
         }
         self.token = nil
     }
