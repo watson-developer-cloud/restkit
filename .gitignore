@@ -4,3 +4,7 @@ xcuserdata/
 .build
 .DS_Store
 TestCredentials.swift
+
+# ignore detect secrets files
+.pre-commit-config.yaml
+.secrets.baseline
