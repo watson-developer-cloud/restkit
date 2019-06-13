@@ -117,14 +117,11 @@ public enum JSON: Equatable, Codable {
         return encoder
     }
 
+    // Date values can be provided with or without fractional seconds
     public static var decoder: JSONDecoder {
         let decoder = JSONDecoder()
         do {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
-            formatter.timeZone = TimeZone(secondsFromGMT: 0)
-            formatter.locale = Locale(identifier: "en_US_POSIX")
-            decoder.dateDecodingStrategy = .formatted(formatter)
+            decoder.dateDecodingStrategy = .customDate
         }
         return decoder
     }
@@ -195,5 +192,34 @@ public enum JSON: Equatable, Codable {
         case (.object(let x), .object(let y)): return x == y   //swiftlint:disable:this identifier_name
         default: return false
         }
+    }
+}
+
+extension Formatter {
+    static let customNoFS: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        return formatter
+    }()
+    static let customFS: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZZZZZ"
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.locale = Locale(identifier: "en_US_POSIX")
+        return formatter
+    }()
+}
+
+extension JSONDecoder.DateDecodingStrategy {
+    static let customDate = custom {
+        let container = try $0.singleValueContainer()
+        let string = try container.decode(String.self)
+        if let date = Formatter.customFS.date(from: string)
+                ?? Formatter.customNoFS.date(from: string) {
+            return date
+        }
+        throw DecodingError.dataCorruptedError(in: container, debugDescription: "Date string does not match format expected by formatter.")
     }
 }

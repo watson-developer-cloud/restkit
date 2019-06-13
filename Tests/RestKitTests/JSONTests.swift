@@ -316,21 +316,33 @@ class JSONTests: XCTestCase {
 
     func testDecodeDate() {
         let dateFormatter = DateFormatter()
-        dateFormatter.calendar = Calendar(identifier: .iso8601)
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+
+        let stringDate1 = "2018-05-17T18:45:32Z"
+        let stringDate2 = "2018-05-17T18:45:32.189Z"
+        let stringDate3 = "2018-05-17T18:45:32.189456Z"
+
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+        let date1 = dateFormatter.date(from: stringDate1)
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
-        let stringDate = "2018-05-17T18:45:32.189Z"
-        guard let expected = dateFormatter.date(from: stringDate) else {
-            XCTFail("Failed to construct expected date")
+        let date2 = dateFormatter.date(from: stringDate2)
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZZZZZ"
+        let date3 = dateFormatter.date(from: stringDate3)
+        guard let expected1 = date1, let expected2 = date2, let expected3 = date3 else {
+            XCTFail("Failed to construct expected dates")
             return
         }
 
-        let json = "{ \"key\": \"\(stringDate)\" }"
+        let json = "{ \"key1\": \"\(stringDate1)\", \"key2\": \"\(stringDate2)\",  \"key3\": \"\(stringDate3)\" }"
         let data = json.data(using: .utf8)!
         guard let object = try? JSON.decoder.decode([String: JSON].self, from: data) else {
             XCTFail("Failed to decode object with date value")
             return
         }
-        XCTAssertEqual(object["key"], .date(expected))
+        XCTAssertEqual(object["key1"], .date(expected1))
+        XCTAssertEqual(object["key2"], .date(expected2))
+        XCTAssertEqual(object["key3"], .date(expected3))
     }
 
     func testDecodeString() {
