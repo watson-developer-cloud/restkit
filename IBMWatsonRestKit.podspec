@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name                  = 'IBMWatsonRestKit'
-  s.version               = '3.0.2'
+  s.version               = '3.0.3'
   s.summary               = 'Networking layer for the IBM Watson Swift SDK'
   s.license               = { :type => 'Apache License, Version 2.0', :file => 'LICENSE' }
   s.homepage              = 'https://www.ibm.com/watson/'
