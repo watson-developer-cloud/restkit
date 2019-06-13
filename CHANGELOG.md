@@ -1,4 +1,10 @@
 
+## 3.0.3 (https://github.com/watson-developer-cloud/restkit/compare/3.0.2...3.0.3) (2019-06-12)
+
+### Bug Fixes
+
+* Allow date values to be specified with or without fractional seconds
+
 ## 3.0.2 (https://github.com/watson-developer-cloud/restkit/compare/3.0.1...3.0.2) (2019-06-02)
 
 ### Bug Fixes
