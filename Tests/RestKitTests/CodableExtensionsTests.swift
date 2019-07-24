@@ -45,6 +45,8 @@ class CodableExtensionsTests: XCTestCase {
         ("testDecodeOptionalNil", testDecodeOptionalNil),
     ]
 
+    // MARK: - Encoding tests
+
     func testEncodeNil() {
         let model: ServiceModelOptional? = nil
         let encoder = JSONEncoder()
@@ -102,6 +104,7 @@ class CodableExtensionsTests: XCTestCase {
             int: 1,
             double: 0.5,
             string: "this is a string",
+            data: "this is data".data(using: .utf8)!,
             array: [1, 2, 3],
             object: ["x": 1]
         )
@@ -120,6 +123,7 @@ class CodableExtensionsTests: XCTestCase {
                   "int" : 1,
                   "double" : 0.5,
                   "string" : "this is a string",
+                  "data": "dGhpcyBpcyBkYXRh",
                   "array" : [
                     1,
                     2,
@@ -261,6 +265,8 @@ class CodableExtensionsTests: XCTestCase {
         XCTAssertEqual(json.sorted(), expected.sorted())
     }
 
+    // MARK: - Decoding tests
+
     func testDecodeSimpleModel() {
         let json = """
             {
@@ -312,6 +318,7 @@ class CodableExtensionsTests: XCTestCase {
                   "int" : 1,
                   "double" : 0.5,
                   "string" : "this is a string",
+                  "data": "dGhpcyBpcyBkYXRh",
                   "array" : [
                     1,
                     2,
@@ -333,6 +340,7 @@ class CodableExtensionsTests: XCTestCase {
         XCTAssertEqual(custom.int, 1)
         XCTAssertEqual(custom.double, 0.5)
         XCTAssertEqual(custom.string, "this is a string")
+        XCTAssertEqual(custom.data, "this is data".data(using: .utf8)!)
         XCTAssertEqual(custom.array, [1, 2, 3])
         XCTAssertEqual(custom.object, ["x": 1])
         XCTAssertEqual(model.additionalProperties.count, 0)
@@ -426,6 +434,8 @@ class CodableExtensionsTests: XCTestCase {
         XCTAssertTrue(model.additionalProperties.isEmpty)
     }
 }
+
+// MARK: - Models
 
 //===----------------------------------------------------------------------===//
 // SimpleModel
@@ -525,6 +535,7 @@ private struct CustomModel: Codable {
     let int: Int
     let double: Double
     let string: String
+    let data: Data
     let array: [Int]
     let object: [String: Int]
 }
