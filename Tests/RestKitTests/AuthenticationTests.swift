@@ -17,18 +17,16 @@
 // swiftlint:disable function_body_length force_try force_unwrapping file_length
 
 import XCTest
-@testable import RestKit
+import RestKit
 
 class AuthenticationTests: XCTestCase {
 
     static var allTests = [
-        ("testNoAuthentication", testNoAuthentication),
-        ("testBasicAuthentication", testBasicAuthentication),
-        ("testAPIKeyAuthenticationHeader", testAPIKeyAuthenticationHeader),
-        ("testAPIKeyAuthenticationQuery", testAPIKeyAuthenticationQuery),
-        ("testIAMAccessToken", testIAMAccessToken),
-        ("testIAMToken", testIAMToken),
+        ("testConstructors", testConstructors),
+        ("testIAMAuthenticator", testIAMAuthenticator),
+        ("testCP4DAuthenticator", testCP4DAuthenticator),
         ("testIAMAuthentication", testIAMAuthentication),
+        ("testCP4DTokenSource", testCP4DTokenSource),
     ]
 
     internal static func errorResponseDecoder(data: Data, response: HTTPURLResponse) -> RestError {
@@ -38,7 +36,7 @@ class AuthenticationTests: XCTestCase {
 
     var request = RestRequest(
         session: URLSession(configuration: URLSessionConfiguration.default),
-        authMethod: NoAuthentication(),
+        authenticator: NoAuthAuthenticator(),
         errorResponseDecoder: errorResponseDecoder,
         method: "GET",
         url: "http://www.example.com",
@@ -47,148 +45,56 @@ class AuthenticationTests: XCTestCase {
         messageBody: "hello-world".data(using: .utf8)
     )
 
-    func testNoAuthentication() {
-        request.authMethod = NoAuthentication()
-        request.authMethod.authenticate(request: request) { request, error in
-            guard let request = request, error == nil else { XCTFail(error!.localizedDescription); return }
-            XCTAssertEqual(self.request.method, request.method)
-            XCTAssertEqual(self.request.url, request.url)
-            XCTAssertEqual(self.request.headerParameters, request.headerParameters)
-            XCTAssertEqual(self.request.queryItems, request.queryItems)
-            XCTAssertEqual(self.request.messageBody, request.messageBody)
-        }
+    // MARK: - Tests
+
+    func testConstructors() {
+        // Make sure all Authenticators have public constructors
+        let noAuth = NoAuthAuthenticator()
+        XCTAssertNotNil(noAuth)
+        let basic = BasicAuthenticator(username: "username", password: "password")
+        XCTAssertNotNil(basic)
+        let bearer = BearerAuthenticator(bearerToken: "bearer")
+        XCTAssertNotNil(bearer)
+        let iam = IAMAuthenticator(apiKey: "apikey")
+        XCTAssertNotNil(iam)
+        let cp4d = CloudPakForDataAuthenticator(username: "admin", password: "password", url: "url")
+        XCTAssertNotNil(cp4d)
     }
 
-    func testBasicAuthentication() {
-        let authentication = "Basic dXNlcm5hbWU6cGFzc3dvcmQ="
-        request.authMethod = BasicAuthentication(username: "username", password: "password")
-        request.authMethod.authenticate(request: request) { request, error in
-            guard let request = request, error == nil else { XCTFail(error!.localizedDescription); return }
-            XCTAssertEqual(self.request.method, request.method)
-            XCTAssertEqual(self.request.url, request.url)
-            XCTAssertEqual(request.headerParameters["x-custom-header"], "value")
-            XCTAssertEqual(request.headerParameters["Authorization"], authentication)
-            XCTAssertEqual(self.request.queryItems, request.queryItems)
-            XCTAssertEqual(self.request.messageBody, request.messageBody)
-        }
+    func testIAMAuthenticator() {
+        let iam = IAMAuthenticator(apiKey: "apikey")
+        XCTAssertNotNil(iam)
+
+        // Verify that request headers can be set and retrieved
+        iam.requestHeaders = ["X-custom-header": "my special value"]
+        XCTAssertEqual(iam.requestHeaders!["X-custom-header"], "my special value")
+
+        // Verify that SSL verification can be disabled
+        iam.disableSSLVerification();
+
+        // Verify that clientID and clientSecret can be set
+        iam.setClientCredentials(clientID: "clientID", clientSecret: "clientSecret")
     }
 
-    func testAPIKeyAuthenticationHeader() {
-        request.authMethod = APIKeyAuthentication(name: "foo", key: "bar", location: .header)
-        request.authMethod.authenticate(request: request) { request, error in
-            guard let request = request, error == nil else { XCTFail(error!.localizedDescription); return }
-            XCTAssertEqual(self.request.method, request.method)
-            XCTAssertEqual(self.request.url, request.url)
-            XCTAssertEqual(request.headerParameters["x-custom-header"], "value")
-            XCTAssertEqual(request.headerParameters["foo"], "bar")
-            XCTAssertEqual(self.request.queryItems, request.queryItems)
-            XCTAssertEqual(self.request.messageBody, request.messageBody)
-        }
-    }
+    func testCP4DAuthenticator() {
+        let cp4d = CloudPakForDataAuthenticator(username: "username", password: "password", url: "url")
+        XCTAssertNotNil(cp4d)
 
-    func testAPIKeyAuthenticationQuery() {
-        request.authMethod = APIKeyAuthentication(name: "foo", key: "bar", location: .query)
-        request.authMethod.authenticate(request: request) { request, error in
-            guard let request = request, error == nil else { XCTFail(error!.localizedDescription); return }
-            XCTAssertEqual(self.request.method, request.method)
-            XCTAssertEqual(self.request.url, request.url)
-            XCTAssertEqual(self.request.headerParameters, request.headerParameters)
-            XCTAssertEqual(self.request.queryItems[0], request.queryItems[0])
-            XCTAssertEqual(request.queryItems[1].name, "foo")
-            XCTAssertEqual(request.queryItems[1].value, "bar")
-            XCTAssertEqual(self.request.messageBody, request.messageBody)
-        }
-    }
+        // Verify that request headers can be set and retrieved
+        cp4d.requestHeaders = ["X-custom-header": "my special value"]
+        XCTAssertEqual(cp4d.requestHeaders!["X-custom-header"], "my special value")
 
-    func testIAMAccessToken() {
-        request.authMethod = IAMAccessToken(accessToken: "access-token")
-        request.authMethod.authenticate(request: request) { request, error in
-            guard let request = request, error == nil else { XCTFail(error!.localizedDescription); return }
-            XCTAssertEqual(self.request.method, request.method)
-            XCTAssertEqual(self.request.url, request.url)
-            XCTAssertEqual(request.headerParameters["x-custom-header"], "value")
-            XCTAssertEqual(request.headerParameters["Authorization"], "Bearer access-token")
-            XCTAssertEqual(self.request.queryItems, request.queryItems)
-            XCTAssertEqual(self.request.messageBody, request.messageBody)
-        }
-    }
-
-    func testIAMToken() {
-
-        // To run this test:
-        // 1. Set `IAMToken` access level to `internal`
-        // 2. Uncomment the code below
-
-        // The `private` access level of the `IAMToken` makes it difficult to test. However, it should
-        // remain `private` because it should not be used by any class outside of `Authentication.swift`.
-        // You can test the token, though, by temporarily changing its access level to `internal` and
-        // uncommenting the code below.
-
-        /**
-
-        // test JSON decoding
-        let json = """
-        {
-            "access_token": "foo",
-            "refresh_token":"bar",
-            "token_type": "Bearer",
-            "expires_in": 3600,
-            "expiration": 1524754769
-        }
-        """
-        let token1 = try! JSONDecoder().decode(IAMToken.self, from: json.data(using: .utf8)!)
-        XCTAssertEqual(token1.accessToken, "foo")
-        XCTAssertEqual(token1.refreshToken, "bar")
-        XCTAssertEqual(token1.tokenType, "Bearer")
-        XCTAssertEqual(token1.expiresIn, 3600)
-        XCTAssertEqual(token1.expiration, 1524754769)
-
-        // test both access token and refresh token expired
-        let token2 = IAMToken(
-            accessToken: "access-token",
-            refreshToken: "refresh-token",
-            tokenType: "token-type",
-            expiresIn: 3600,
-            expiration: 0
-        )
-        XCTAssertTrue(token2.isAccessTokenExpired)
-        XCTAssertTrue(token2.isRefreshTokenExpired)
-
-        // test access token expired, but not refresh token
-        // (set expiration in the future, but before the 20% refresh buffer)
-        let token3 = IAMToken(
-            accessToken: "access-token",
-            refreshToken: "refresh-token",
-            tokenType: "token-type",
-            expiresIn: 3600,
-            expiration: Int(Date().addingTimeInterval(3600 * 0.19).timeIntervalSince1970)
-        )
-        XCTAssertTrue(token3.isAccessTokenExpired)
-        XCTAssertFalse(token3.isRefreshTokenExpired)
-
-        // test neither access token nor refresh token expired
-        // (set expiration in the future, but just after the 20% refresh buffer)
-        let token4 = IAMToken(
-            accessToken: "access-token",
-            refreshToken: "refresh-token",
-            tokenType: "token-type",
-            expiresIn: 3600,
-            expiration: Int(Date().addingTimeInterval(3600 * 0.21).timeIntervalSince1970)
-        )
-        XCTAssertFalse(token4.isAccessTokenExpired)
-        XCTAssertFalse(token4.isRefreshTokenExpired)
-
-        */
+        // Verify that SSL verification can be disabled
+        cp4d.disableSSLVerification();
     }
 
     func testIAMAuthentication() {
 
         // To run this test:
-        // 1. Set `IAMToken` access level to `internal`
-        // 2. Set `IAMAuthentication.token` access level to `internal`
-        // 3. Uncomment the code below
-        // 4. Add credentials to TestCredentials.swift in Supporting Files folder
-        // 5. Add TestCredentials.swift to the RestKitTests target
+        // 1. Set `IAMAuthentication.token` access level to `internal`
+        // 2. Uncomment the code below
+        // 3. Add credentials to TestCredentials.swift in Supporting Files folder
+        // 4. Add TestCredentials.swift to the RestKitTests target
 
         // The `private` access level of the properties and functions in `IAMAuthentication` prohibit us from
         // modifying/calling them directly. As a result, this is hard to test properly (particularly token refresh).
@@ -197,58 +103,87 @@ class AuthenticationTests: XCTestCase {
 
         /**
 
-        let authMethod = IAMAuthentication(apiKey: TestCredentials.IAMAPIKey, url: TestCredentials.IAMURL)
-        var authorizationHeader: String! // save initial authorization header (it should stay the same until refreshed)
-        request.authMethod = authMethod
+         let authenticator = IAMAuthenticator(apiKey: TestCredentials.IAMAPIKey, url: TestCredentials.IAMURL)
+         var authorizationHeader: String! // save initial authorization header (it should stay the same until refreshed)
+         request.authenticator = authenticator
 
-        // request initial iam token
-        let expectation1 = self.expectation(description: "request initial iam token")
-        request.authMethod.authenticate(request: request) { request, error in
-            guard let request = request, error == nil else { XCTFail(error!.localizedDescription); return }
-            XCTAssertEqual(self.request.method, request.method)
-            XCTAssertEqual(self.request.url, request.url)
-            XCTAssertEqual(request.headerParameters["x-custom-header"], "value")
-            XCTAssertTrue(request.headerParameters["Authorization"]!.starts(with: "Bearer "))
-            XCTAssertEqual(self.request.queryItems, request.queryItems)
-            XCTAssertEqual(self.request.messageBody, request.messageBody)
-            authorizationHeader = request.headerParameters["Authorization"]!
-            expectation1.fulfill()
-        }
-        wait(for: [expectation1], timeout: 5)
+         // request initial iam token
+         let expectation1 = self.expectation(description: "request initial iam token")
+         request.authenticator.authenticate(request: request) { request, error in
+         guard let request = request, error == nil else { XCTFail(error!.localizedDescription); return }
+         XCTAssertEqual(self.request.method, request.method)
+         XCTAssertEqual(self.request.url, request.url)
+         XCTAssertEqual(request.headerParameters["x-custom-header"], "value")
+         XCTAssertTrue(request.headerParameters["Authorization"]!.starts(with: "Bearer "))
+         XCTAssertEqual(self.request.queryItems, request.queryItems)
+         XCTAssertEqual(self.request.messageBody, request.messageBody)
+         authorizationHeader = request.headerParameters["Authorization"]!
+         expectation1.fulfill()
+         }
+         wait(for: [expectation1], timeout: 5)
 
-        sleep(1) // sleep for 1 second to make sure the unix time stamp increments
+         sleep(1) // sleep for 1 second to make sure the unix time stamp increments
 
-        // use the same iam token
-        let expectation2 = self.expectation(description: "use the same iam token")
-        request.authMethod.authenticate(request: request) { request, error in
-            guard let request = request, error == nil else { XCTFail(error!.localizedDescription); return }
-            XCTAssertEqual(request.headerParameters["Authorization"]!, authorizationHeader)
-            expectation2.fulfill()
-        }
-        wait(for: [expectation2], timeout: 5)
+         // use the same iam token
+         let expectation2 = self.expectation(description: "use the same iam token")
+         request.authenticator.authenticate(request: request) { request, error in
+         guard let request = request, error == nil else { XCTFail(error!.localizedDescription); return }
+         XCTAssertEqual(request.headerParameters["Authorization"]!, authorizationHeader)
+         expectation2.fulfill()
+         }
+         wait(for: [expectation2], timeout: 5)
 
-        sleep(1) // sleep for 1 second to make sure the unix time stamp increments
+         sleep(1) // sleep for 1 second to make sure the unix time stamp increments
 
-        // change the token's expiration date to force a refresh
-        let token = IAMToken(
-            accessToken: authMethod.token!.accessToken,
-            refreshToken: authMethod.token!.refreshToken,
-            tokenType: authMethod.token!.tokenType,
-            expiresIn: authMethod.token!.expiresIn,
-            expiration: Int(Date().timeIntervalSince1970)
-        )
-        authMethod.token = token
+         // change the token's expiration date to force a refresh
+         let token = IAMToken(
+         accessToken: authenticator.token!.accessToken,
+         refreshToken: authenticator.token!.refreshToken,
+         tokenType: authenticator.token!.tokenType,
+         expiresIn: authenticator.token!.expiresIn,
+         expiration: Int(Date().timeIntervalSince1970)
+         )
+         authenticator.token = token
 
-        // refresh the iam token
-        let expectation3 = self.expectation(description: "refresh the iam token")
-        request.authMethod.authenticate(request: request) { request, error in
-            guard let request = request, error == nil else { XCTFail(error!.localizedDescription); return }
-            XCTAssertTrue(request.headerParameters["Authorization"]!.starts(with: "Bearer "))
-            XCTAssertNotEqual(request.headerParameters["Authorization"]!, authorizationHeader)
-            expectation3.fulfill()
-        }
-        wait(for: [expectation3], timeout: 5)
+         // refresh the iam token
+         let expectation3 = self.expectation(description: "refresh the iam token")
+         request.authenticator.authenticate(request: request) { request, error in
+         guard let request = request, error == nil else { XCTFail(error!.localizedDescription); return }
+         XCTAssertTrue(request.headerParameters["Authorization"]!.starts(with: "Bearer "))
+         XCTAssertNotEqual(request.headerParameters["Authorization"]!, authorizationHeader)
+         expectation3.fulfill()
+         }
+         wait(for: [expectation3], timeout: 5)
 
-        */
+         */
     }
+
+    func testCP4DTokenSource() {
+
+        // To run this test:
+        // 1. Uncomment the code below
+        // 2. Create an CP4D instance and create credentials for the root user
+        // 3. Add credentials to TestCredentials.swift in Supporting Files folder
+        // 4. Add TestCredentials.swift to the RestKitTests target
+
+        /*
+        let expectation = self.expectation(description: "request token")
+        // Edit /etc/hosts and add your cluster IP with the name `mycluster.icp`
+        let tokenSource = CloudPakForDataTokenSource(username: TestCredentials.CP4DUsername, password: TestCredentials.CP4DPassword, url: TestCredentials.CP4DURL)
+        tokenSource.disableSSLVerification()
+        tokenSource.getToken { token, error in
+            guard let token = token, error == nil else {
+                XCTFail(error!.localizedDescription)
+                return
+            }
+            let expiration = JWT.getTokenExpiration(token: token)
+            XCTAssertNotNil(expiration)
+            XCTAssertGreaterThan(expiration?.timeIntervalSinceNow ?? 0, 0) // in the future
+            XCTAssertLessThan(expiration?.timeIntervalSinceNow ?? 0, 60*60*24) // less than 1 day
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 25)
+         */
+    }
+
 }

@@ -25,7 +25,7 @@ public struct RestRequest {
     public static var userAgent: String?
 
     private let session: URLSession
-    internal var authMethod: AuthenticationMethod
+    internal var authenticator: Authenticator
     internal var errorResponseDecoder: ((Data, HTTPURLResponse) -> RestError)
     internal var method: String
     internal var url: String
@@ -35,7 +35,7 @@ public struct RestRequest {
 
     public init(
         session: URLSession,
-        authMethod: AuthenticationMethod,
+        authenticator: Authenticator,
         errorResponseDecoder: @escaping ((Data, HTTPURLResponse) -> RestError),
         method: String,
         url: String,
@@ -44,7 +44,7 @@ public struct RestRequest {
         messageBody: Data? = nil)
     {
         self.session = session
-        self.authMethod = authMethod
+        self.authenticator = authenticator
         self.errorResponseDecoder = errorResponseDecoder
         self.method = method
         self.url = url
@@ -87,7 +87,7 @@ extension RestRequest {
         completionHandler: @escaping (Data?, HTTPURLResponse?, RestError?) -> Void)
     {
         // add authentication credentials to the request
-        authMethod.authenticate(request: self) { request, error in
+        authenticator.authenticate(request: self) { request, error in
 
             // ensure there is no credentials error
             guard let request = request, error == nil else {
@@ -288,7 +288,7 @@ extension RestRequest {
         completionHandler: @escaping (HTTPURLResponse?, RestError?) -> Void)
     {
         // add authentication credentials to the request
-        authMethod.authenticate(request: self) { request, error in
+        authenticator.authenticate(request: self) { request, error in
 
             // ensure there is no credentials error
             guard let request = request, error == nil else {
