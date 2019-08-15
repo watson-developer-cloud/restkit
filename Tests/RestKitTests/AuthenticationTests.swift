@@ -69,8 +69,10 @@ class AuthenticationTests: XCTestCase {
         iam.requestHeaders = ["X-custom-header": "my special value"]
         XCTAssertEqual(iam.requestHeaders!["X-custom-header"], "my special value")
 
+        #if !os(Linux)
         // Verify that SSL verification can be disabled
         iam.disableSSLVerification();
+        #endif
 
         // Verify that clientID and clientSecret can be set
         iam.setClientCredentials(clientID: "clientID", clientSecret: "clientSecret")
@@ -84,8 +86,10 @@ class AuthenticationTests: XCTestCase {
         cp4d.requestHeaders = ["X-custom-header": "my special value"]
         XCTAssertEqual(cp4d.requestHeaders!["X-custom-header"], "my special value")
 
+        #if !os(Linux)
         // Verify that SSL verification can be disabled
         cp4d.disableSSLVerification();
+        #endif
     }
 
     func testIAMAuthentication() {
