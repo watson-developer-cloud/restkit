@@ -28,7 +28,6 @@
 		CAC2201A22B82AA200179A9E /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC2201922B82AA200179A9E /* JWT.swift */; };
 		CAC2201C22B82FD700179A9E /* InsecureConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC2201B22B82FD700179A9E /* InsecureConnection.swift */; };
 		CAC2201E22B833C300179A9E /* IAMAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC2201D22B833C300179A9E /* IAMAuthenticator.swift */; };
-		CACC5ECD22FFC075002A8F98 /* TestCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACC5ECB22FFBF8F002A8F98 /* TestCredentials.swift */; };
 		CACC5ECF23030516002A8F98 /* AuthenticationUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACC5ECE23030516002A8F98 /* AuthenticationUnitTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -337,7 +336,6 @@
 				CA17C8E02191063800677CA7 /* ResponseTests.swift in Sources */,
 				CA17C8DE2190E33400677CA7 /* MockURLProtocol.swift in Sources */,
 				CA542769215558740035F8B6 /* MultiPartFormDataTests.swift in Sources */,
-				CACC5ECD22FFC075002A8F98 /* TestCredentials.swift in Sources */,
 				92048D80212F5BA2004FD822 /* CodableExtensionsTests.swift in Sources */,
 				CACC5ECF23030516002A8F98 /* AuthenticationUnitTests.swift in Sources */,
 			);
