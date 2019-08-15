@@ -114,7 +114,7 @@ class AuthenticationUnitTests: XCTestCase {
     }
 
     func testIAMAuthenticator() {
-        let authenticator = IAMAuthenticator(apiKey: TestCredentials.IAMAPIKey, url: TestCredentials.IAMURL)
+        let authenticator = IAMAuthenticator(apiKey: "apikey", url: "https://foo.bar.com/iam")
         let iamTokenSource = authenticator.tokenSource as! IAMTokenSource
         iamTokenSource.session = mockSession
         request.authenticator = authenticator
