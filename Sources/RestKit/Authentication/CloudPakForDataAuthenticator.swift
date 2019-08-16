@@ -27,7 +27,7 @@ class CloudPakForDataTokenSource: TokenSource {
 
     let url: String
 
-    var requestHeaders: [String: String]?
+    var headers: [String: String]?
 
     var session = URLSession(configuration: URLSessionConfiguration.default)
 
@@ -87,8 +87,8 @@ class CloudPakForDataTokenSource: TokenSource {
 
     private func requestToken(completionHandler: @escaping (String?, RestError?) -> Void) {
         var headerParameters = ["Accept": "application/json"]
-        if let requestHeaders = requestHeaders {
-            headerParameters.merge(requestHeaders) { (old, _) in old }
+        if let headers = headers {
+            headerParameters.merge(headers) { (old, _) in old }
         }
         let request = RestRequest(
             session: session,

@@ -81,7 +81,7 @@ public class BasicAuthenticator: Authenticator {
 }
 
 /** Authenticate with a static bearer token. */
-public class BearerAuthenticator: Authenticator {
+public class BearerTokenAuthenticator: Authenticator {
 
     /**
      The bearer token
@@ -105,11 +105,11 @@ public class BearerAuthenticator: Authenticator {
     }
 
     public func authenticate(request: RestRequest, completionHandler: @escaping (RestRequest?, RestError?) -> Void) {
-        BearerAuthenticator.authenticate(request: request, bearerToken: bearerToken, completionHandler: completionHandler)
+        BearerTokenAuthenticator.authenticate(request: request, bearerToken: bearerToken, completionHandler: completionHandler)
     }
 
     public func authenticate(request: URLRequest, completionHandler: @escaping (URLRequest?, RestError?) -> Void) {
-        BearerAuthenticator.authenticate(request: request, bearerToken: bearerToken, completionHandler: completionHandler)
+        BearerTokenAuthenticator.authenticate(request: request, bearerToken: bearerToken, completionHandler: completionHandler)
     }
 }
 
@@ -122,7 +122,7 @@ public protocol TokenSource {
     /**
      HTTP request headers to set in all token requests.
      */
-    var requestHeaders: [String: String]? {get set}
+    var headers: [String: String]? {get set}
 
     #if !os(Linux)
     /**
@@ -142,12 +142,12 @@ public class TokenSourceAuthenticator: Authenticator {
         self.tokenSource = tokenSource
     }
 
-    public var requestHeaders: [String: String]? {
+    public var headers: [String: String]? {
         get {
-            return self.tokenSource.requestHeaders
+            return self.tokenSource.headers
         }
         set(newVal) {
-            self.tokenSource.requestHeaders = newVal
+            self.tokenSource.headers = newVal
         }
     }
 
@@ -164,7 +164,7 @@ public class TokenSourceAuthenticator: Authenticator {
     public func authenticate(request: RestRequest, completionHandler: @escaping (RestRequest?, RestError?) -> Void) {
         tokenSource.getToken { token, error in
             if let token = token {
-                BearerAuthenticator.authenticate(request: request, bearerToken: token, completionHandler: completionHandler)
+                BearerTokenAuthenticator.authenticate(request: request, bearerToken: token, completionHandler: completionHandler)
              } else {
                 completionHandler(nil, error ?? RestError.http(statusCode: 400, message: "Token Source error", metadata: nil))
             }
@@ -174,7 +174,7 @@ public class TokenSourceAuthenticator: Authenticator {
     public func authenticate(request: URLRequest, completionHandler: @escaping (URLRequest?, RestError?) -> Void) {
         tokenSource.getToken { token, error in
             if let token = token {
-                BearerAuthenticator.authenticate(request: request, bearerToken: token, completionHandler: completionHandler)
+                BearerTokenAuthenticator.authenticate(request: request, bearerToken: token, completionHandler: completionHandler)
             } else {
                 completionHandler(nil, error ?? RestError.http(statusCode: 400, message: "Token Source error", metadata: nil))
             }
