@@ -82,7 +82,7 @@ class AuthenticationUnitTests: XCTestCase {
     }
 
     func testBearerAuthenticator() {
-        request.authenticator = BearerAuthenticator(bearerToken: "bearer-token")
+        request.authenticator = BearerTokenAuthenticator(bearerToken: "bearer-token")
         request.authenticator.authenticate(request: request) { request, error in
             guard let request = request, error == nil else { XCTFail(error!.localizedDescription); return }
             XCTAssertEqual(self.request.method, request.method)
@@ -151,7 +151,7 @@ class AuthenticationUnitTests: XCTestCase {
         sleep(3)
 
         // Set headers for token request
-        authenticator.requestHeaders = ["x-special-header": "special value"]
+        authenticator.headers = ["x-special-header": "special value"]
 
         // Set clientID and clientSecret for token request
         authenticator.setClientCredentials(clientID: "clientID", clientSecret: "clientSecret")
@@ -225,7 +225,7 @@ class AuthenticationUnitTests: XCTestCase {
         sleep(3)
 
         // Set headers for token request
-        authenticator.requestHeaders = ["x-special-header": "special value"]
+        authenticator.headers = ["x-special-header": "special value"]
 
         let newToken = ["header", "{\"exp\": 3600}".data(using: .utf8)!.base64EncodedString(), "signature"].joined(separator: ".")
 

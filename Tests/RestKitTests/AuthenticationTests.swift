@@ -53,7 +53,7 @@ class AuthenticationTests: XCTestCase {
         XCTAssertNotNil(noAuth)
         let basic = BasicAuthenticator(username: "username", password: "password")
         XCTAssertNotNil(basic)
-        let bearer = BearerAuthenticator(bearerToken: "bearer")
+        let bearer = BearerTokenAuthenticator(bearerToken: "bearer")
         XCTAssertNotNil(bearer)
         let iam = IAMAuthenticator(apiKey: "apikey")
         XCTAssertNotNil(iam)
@@ -66,8 +66,8 @@ class AuthenticationTests: XCTestCase {
         XCTAssertNotNil(iam)
 
         // Verify that request headers can be set and retrieved
-        iam.requestHeaders = ["X-custom-header": "my special value"]
-        XCTAssertEqual(iam.requestHeaders!["X-custom-header"], "my special value")
+        iam.headers = ["X-custom-header": "my special value"]
+        XCTAssertEqual(iam.headers!["X-custom-header"], "my special value")
 
         #if !os(Linux)
         // Verify that SSL verification can be disabled
@@ -83,8 +83,8 @@ class AuthenticationTests: XCTestCase {
         XCTAssertNotNil(cp4d)
 
         // Verify that request headers can be set and retrieved
-        cp4d.requestHeaders = ["X-custom-header": "my special value"]
-        XCTAssertEqual(cp4d.requestHeaders!["X-custom-header"], "my special value")
+        cp4d.headers = ["X-custom-header": "my special value"]
+        XCTAssertEqual(cp4d.headers!["X-custom-header"], "my special value")
 
         #if !os(Linux)
         // Verify that SSL verification can be disabled

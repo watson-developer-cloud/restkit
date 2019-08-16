@@ -34,7 +34,7 @@ class IAMTokenSource: TokenSource {
 
     let url: String
 
-    var requestHeaders: [String: String]?
+    var headers: [String: String]?
 
     var session = URLSession(configuration: URLSessionConfiguration.default)
 
@@ -113,8 +113,8 @@ class IAMTokenSource: TokenSource {
 
     private func requestToken(completionHandler: @escaping (IAMToken?, RestError?) -> Void) {
         var headerParameters = ["Content-Type": "application/x-www-form-urlencoded", "Accept": "application/json"]
-        if let requestHeaders = requestHeaders {
-            headerParameters.merge(requestHeaders) { (old, _) in old }
+        if let headers = headers {
+            headerParameters.merge(headers) { (old, _) in old }
         }
         let form = ["grant_type=urn:ibm:params:oauth:grant-type:apikey", "apikey=\(apiKey)", "response_type=cloud_iam"]
         let request = RestRequest(

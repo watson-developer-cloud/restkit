@@ -54,7 +54,7 @@
 		92048D82212F5BEE004FD822 /* MultipartFormData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MultipartFormData.swift; path = RestKit/MultipartFormData.swift; sourceTree = "<group>"; };
 		92048D83212F5BEE004FD822 /* CodableExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CodableExtensions.swift; path = RestKit/CodableExtensions.swift; sourceTree = "<group>"; };
 		92048D85212F5BEE004FD822 /* RestError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RestError.swift; path = RestKit/RestError.swift; sourceTree = "<group>"; };
-		92048D86212F5BEE004FD822 /* Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Authentication.swift; path = ../RestKit/Authentication/Authentication.swift; sourceTree = "<group>"; };
+		92048D86212F5BEE004FD822 /* Authentication.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Authentication.swift; path = Sources/RestKit/Authentication/Authentication.swift; sourceTree = SOURCE_ROOT; };
 		92048D87212F5BEE004FD822 /* JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSON.swift; path = RestKit/JSON.swift; sourceTree = "<group>"; };
 		92547735216BEFC8003C2829 /* RestErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RestErrorTests.swift; path = RestKitTests/RestErrorTests.swift; sourceTree = "<group>"; };
 		92BF69BB213F4BD800FE6325 /* RestResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RestResponse.swift; path = RestKit/RestResponse.swift; sourceTree = "<group>"; };
@@ -63,10 +63,10 @@
 		CA542768215558740035F8B6 /* MultiPartFormDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MultiPartFormDataTests.swift; path = RestKitTests/MultiPartFormDataTests.swift; sourceTree = "<group>"; };
 		CA54276B215574380035F8B6 /* TestData.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestData.txt; sourceTree = "<group>"; };
 		CA59FDAA224BDAC900E152AE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		CAC2201722B8298400179A9E /* CloudPakForDataAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CloudPakForDataAuthenticator.swift; path = ../RestKit/Authentication/CloudPakForDataAuthenticator.swift; sourceTree = "<group>"; };
-		CAC2201922B82AA200179A9E /* JWT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JWT.swift; path = ../RestKit/Authentication/JWT.swift; sourceTree = "<group>"; };
-		CAC2201B22B82FD700179A9E /* InsecureConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = InsecureConnection.swift; path = ../RestKit/Authentication/InsecureConnection.swift; sourceTree = "<group>"; };
-		CAC2201D22B833C300179A9E /* IAMAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = IAMAuthenticator.swift; path = ../RestKit/Authentication/IAMAuthenticator.swift; sourceTree = "<group>"; };
+		CAC2201722B8298400179A9E /* CloudPakForDataAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CloudPakForDataAuthenticator.swift; path = Sources/RestKit/Authentication/CloudPakForDataAuthenticator.swift; sourceTree = SOURCE_ROOT; };
+		CAC2201922B82AA200179A9E /* JWT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JWT.swift; path = Sources/RestKit/Authentication/JWT.swift; sourceTree = SOURCE_ROOT; };
+		CAC2201B22B82FD700179A9E /* InsecureConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = InsecureConnection.swift; path = Sources/RestKit/Authentication/InsecureConnection.swift; sourceTree = SOURCE_ROOT; };
+		CAC2201D22B833C300179A9E /* IAMAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = IAMAuthenticator.swift; path = Sources/RestKit/Authentication/IAMAuthenticator.swift; sourceTree = SOURCE_ROOT; };
 		CACC5ECB22FFBF8F002A8F98 /* TestCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestCredentials.swift; sourceTree = "<group>"; };
 		CACC5ECE23030516002A8F98 /* AuthenticationUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationUnitTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
