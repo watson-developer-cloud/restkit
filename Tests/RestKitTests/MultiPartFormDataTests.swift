@@ -27,7 +27,7 @@ class MultiPartFormDataTests: XCTestCase {
         ("testFormDataFromURL", testFormDataFromURL),
         ("testFormDataWithInvalidURL", testFormDataWithInvalidURL),
     ]
-    
+
     func loadResource(name: String, ext: String) -> URL {
         #if os(Linux)
         return URL(fileURLWithPath: "Tests/Resources/" + name + "." + ext)

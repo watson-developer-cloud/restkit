@@ -51,7 +51,7 @@ class RestErrorTests: XCTestCase {
         let testMetadata: [String: Any] = [
             "key0": 42,
             "key1": true,
-            "key2": "value"
+            "key2": "value",
         ]
         let httpError = RestError.http(statusCode: testStatusCode, message: nil, metadata: testMetadata)
 
