@@ -52,7 +52,7 @@ class ResponseTests: XCTestCase {
 
         let request = RestRequest(
             session: mockSession,
-            authMethod: BasicAuthentication(username: "username", password: "password"),
+            authenticator: BasicAuthenticator(username: "username", password: "password"),
             errorResponseDecoder: errorResponseDecoder,
             method: "POST",
             url: "http://restkit.com/response_tests/test_data_corrputed_error",
@@ -83,7 +83,7 @@ class ResponseTests: XCTestCase {
 
         let request = RestRequest(
             session: mockSession,
-            authMethod: BasicAuthentication(username: "username", password: "password"),
+            authenticator: BasicAuthenticator(username: "username", password: "password"),
             errorResponseDecoder: errorResponseDecoder,
             method: "POST",
             url: "http://restkit.com/response_tests/test_key_not_found_error",
@@ -114,7 +114,7 @@ class ResponseTests: XCTestCase {
 
         let request = RestRequest(
             session: mockSession,
-            authMethod: BasicAuthentication(username: "username", password: "password"),
+            authenticator: BasicAuthenticator(username: "username", password: "password"),
             errorResponseDecoder: errorResponseDecoder,
             method: "POST",
             url: "http://restkit.com/response_tests/test_type_mismatch_error",
@@ -145,7 +145,7 @@ class ResponseTests: XCTestCase {
 
         let request = RestRequest(
             session: mockSession,
-            authMethod: BasicAuthentication(username: "username", password: "password"),
+            authenticator: BasicAuthenticator(username: "username", password: "password"),
             errorResponseDecoder: errorResponseDecoder,
             method: "POST",
             url: "http://restkit.com/response_tests/test_value_not_found_error",
@@ -177,7 +177,7 @@ class ResponseTests: XCTestCase {
 
         let request = RestRequest(
             session: mockSession,
-            authMethod: BasicAuthentication(username: "username", password: "password"),
+            authenticator: BasicAuthenticator(username: "username", password: "password"),
             errorResponseDecoder: errorResponseDecoder,
             method: "POST",
             url: "http://restkit.com/response_tests/test_value_not_found_error",
@@ -200,7 +200,7 @@ class ResponseTests: XCTestCase {
     func testBadURL() {
         let request = RestRequest(
             session: mockSession,
-            authMethod: BasicAuthentication(username: "username", password: "password"),
+            authenticator: BasicAuthenticator(username: "username", password: "password"),
             errorResponseDecoder: errorResponseDecoder,
             method: "POST",
             url: "not valid",
@@ -229,7 +229,7 @@ class ResponseTests: XCTestCase {
 
         let request = RestRequest(
             session: mockSession,
-            authMethod: IAMAuthentication(apiKey: "bogus"),
+            authenticator: IAMAuthenticator(apiKey: "bogus"),
             errorResponseDecoder: errorResponseDecoder,
             method: "POST",
             url: "http://restkit.com/response_tests/test_value_not_found_error",
