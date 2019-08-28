@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		7E17AC0323143722005E538D /* ConfigBasedAuthenticatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E17AC0223143722005E538D /* ConfigBasedAuthenticatorFactory.swift */; };
-		7E17AC0423143722005E538D /* ConfigBasedAuthenticatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E17AC0223143722005E538D /* ConfigBasedAuthenticatorFactory.swift */; };
-		7E17AC062314558D005E538D /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E17AC052314558D005E538D /* Helpers.swift */; };
-		7E17AC072314558D005E538D /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E17AC052314558D005E538D /* Helpers.swift */; };
+		7EB22AFC23181A4B000EB0E0 /* MultiPartFormDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA542768215558740035F8B6 /* MultiPartFormDataTests.swift */; };
+		7EB22AFE23181B0E000EB0E0 /* ConfigBasedAuthenticatorFactoryTests-Linux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB22AFD23181B0E000EB0E0 /* ConfigBasedAuthenticatorFactoryTests-Linux.swift */; };
+		7EB22B0023181C59000EB0E0 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E17AC052314558D005E538D /* Helpers.swift */; };
 		92048D50212F49C8004FD822 /* RestKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92048D46212F49C8004FD822 /* RestKit.framework */; };
 		92048D57212F49C8004FD822 /* RestKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 92048D49212F49C8004FD822 /* RestKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		92048D7E212F5BA2004FD822 /* JSONTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92048D7B212F5BA2004FD822 /* JSONTests.swift */; };
@@ -26,7 +26,6 @@
 		92BF69BC213F4BD800FE6325 /* RestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92BF69BB213F4BD800FE6325 /* RestResponse.swift */; };
 		CA17C8DE2190E33400677CA7 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA17C8DD2190E33400677CA7 /* MockURLProtocol.swift */; };
 		CA17C8E02191063800677CA7 /* ResponseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA17C8DF2191063800677CA7 /* ResponseTests.swift */; };
-		CA542769215558740035F8B6 /* MultiPartFormDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA542768215558740035F8B6 /* MultiPartFormDataTests.swift */; };
 		CA54276D2155763E0035F8B6 /* TestData.txt in Resources */ = {isa = PBXBuildFile; fileRef = CA54276B215574380035F8B6 /* TestData.txt */; };
 		CAC2201822B8298400179A9E /* CloudPakForDataAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC2201722B8298400179A9E /* CloudPakForDataAuthenticator.swift */; };
 		CAC2201A22B82AA200179A9E /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAC2201922B82AA200179A9E /* JWT.swift */; };
@@ -46,8 +45,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		7E17AC0223143722005E538D /* ConfigBasedAuthenticatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigBasedAuthenticatorFactory.swift; sourceTree = SOURCE_ROOT; };
-		7E17AC052314558D005E538D /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		7E17AC0223143722005E538D /* ConfigBasedAuthenticatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConfigBasedAuthenticatorFactory.swift; path = Sources/RestKit/Authentication/ConfigBasedAuthenticatorFactory.swift; sourceTree = SOURCE_ROOT; };
+		7E17AC052314558D005E538D /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Helpers.swift; path = RestKit/Helpers.swift; sourceTree = "<group>"; };
+		7EB22AFD23181B0E000EB0E0 /* ConfigBasedAuthenticatorFactoryTests-Linux.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConfigBasedAuthenticatorFactoryTests-Linux.swift"; path = "RestKitTests/ConfigBasedAuthenticatorFactoryTests-Linux.swift"; sourceTree = "<group>"; };
 		92048D46212F49C8004FD822 /* RestKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RestKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		92048D49212F49C8004FD822 /* RestKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RestKit.h; sourceTree = "<group>"; };
 		92048D4A212F49C8004FD822 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -125,6 +125,7 @@
 				92048D85212F5BEE004FD822 /* RestError.swift */,
 				92048D81212F5BEE004FD822 /* RestRequest.swift */,
 				92BF69BB213F4BD800FE6325 /* RestResponse.swift */,
+				7E17AC052314558D005E538D /* Helpers.swift */,
 				92048D60212F4B1F004FD822 /* Supporting Files */,
 			);
 			path = Sources;
@@ -133,6 +134,7 @@
 		92048D53212F49C8004FD822 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				7EB22AFD23181B0E000EB0E0 /* ConfigBasedAuthenticatorFactoryTests-Linux.swift */,
 				92048D7C212F5BA2004FD822 /* AuthenticationTests.swift */,
 				CACC5ECE23030516002A8F98 /* AuthenticationUnitTests.swift */,
 				92048D7D212F5BA2004FD822 /* CodableExtensionsTests.swift */,
@@ -152,7 +154,6 @@
 			children = (
 				92048D49212F49C8004FD822 /* RestKit.h */,
 				92048D4A212F49C8004FD822 /* Info.plist */,
-				7E17AC052314558D005E538D /* Helpers.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -320,6 +321,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EB22B0023181C59000EB0E0 /* Helpers.swift in Sources */,
 				CAC2201E22B833C300179A9E /* IAMAuthenticator.swift in Sources */,
 				92048D8E212F5BEE004FD822 /* JSON.swift in Sources */,
 				92BF69BC213F4BD800FE6325 /* RestResponse.swift in Sources */,
@@ -330,7 +332,6 @@
 				92048D88212F5BEE004FD822 /* RestRequest.swift in Sources */,
 				7E17AC0323143722005E538D /* ConfigBasedAuthenticatorFactory.swift in Sources */,
 				CAC2201822B8298400179A9E /* CloudPakForDataAuthenticator.swift in Sources */,
-				7E17AC062314558D005E538D /* Helpers.swift in Sources */,
 				92048D8A212F5BEE004FD822 /* CodableExtensions.swift in Sources */,
 				92048D8D212F5BEE004FD822 /* Authentication.swift in Sources */,
 			);
@@ -340,14 +341,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7EB22AFC23181A4B000EB0E0 /* MultiPartFormDataTests.swift in Sources */,
 				92048D7E212F5BA2004FD822 /* JSONTests.swift in Sources */,
 				92048D7F212F5BA2004FD822 /* AuthenticationTests.swift in Sources */,
-				7E17AC0423143722005E538D /* ConfigBasedAuthenticatorFactory.swift in Sources */,
-				7E17AC072314558D005E538D /* Helpers.swift in Sources */,
 				92547736216BEFC8003C2829 /* RestErrorTests.swift in Sources */,
+				7EB22AFE23181B0E000EB0E0 /* ConfigBasedAuthenticatorFactoryTests-Linux.swift in Sources */,
 				CA17C8E02191063800677CA7 /* ResponseTests.swift in Sources */,
 				CA17C8DE2190E33400677CA7 /* MockURLProtocol.swift in Sources */,
-				CA542769215558740035F8B6 /* MultiPartFormDataTests.swift in Sources */,
 				92048D80212F5BA2004FD822 /* CodableExtensionsTests.swift in Sources */,
 				CACC5ECF23030516002A8F98 /* AuthenticationUnitTests.swift in Sources */,
 			);

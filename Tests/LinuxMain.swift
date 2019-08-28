@@ -9,5 +9,5 @@ XCTMain([
     testCase(RestErrorTests.allTests),
     testCase(ResponseTests.allTests),
     testCase(MultiPartFormDataTests.allTests),
-    testCase(ConfigBasedAuthenticatorFactoryTests.allTests)
+    testCase(ConfigBasedAuthenticatorFactoryTests.allTests),
 ])

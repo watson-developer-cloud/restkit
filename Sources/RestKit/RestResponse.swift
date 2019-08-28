@@ -19,7 +19,6 @@ import Foundation
 import FoundationNetworking
 #endif
 
-
 // MARK: - RestResponse
 
 /**

@@ -14,6 +14,7 @@
  * limitations under the License.
  **/
 
+#if os(Linux)
 import XCTest
 import RestKit
 
@@ -441,7 +442,6 @@ class ConfigBasedAuthenticatorFactoryTests: XCTestCase {
         }
     }
 
-
     // MARK: VCAP_SERVICES defined auth
 
     func testGetBasicAuthFromVcapServices() {
@@ -632,3 +632,4 @@ class ConfigBasedAuthenticatorFactoryTests: XCTestCase {
         deleteMockFile(path: workingDirectory)
     }
 }
+#endif
