@@ -1,0 +1,30 @@
+{
+    "service1": [{
+        "credentials": {
+          "url": "https://myhost.com/my/service1/base/url",
+          "username": "basic-auth-username",
+          "password": "basic-auth-password"
+        },
+        "label": "service1",
+        "name": "service1-service",
+        "plan": "standard"
+    }],
+    "service2": [{
+        "credentials": {
+          "url": "https://myhost.com/my/service2/base/url",
+          "apikey": "my-iam-apikey"
+        },
+        "label": "service2",
+        "name": "service2-service",
+        "plan": "standard"
+    }],
+    "service3": [{
+        "credentials": {
+          "url": "https://myhost.com/my/service3/base/url",
+          "iam_apikey": "my-iam-apikey"
+        },
+        "label": "service3",
+        "name": "service3-service",
+        "plan": "standard"
+    }]
+  }
