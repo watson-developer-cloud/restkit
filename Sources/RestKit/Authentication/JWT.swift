@@ -15,6 +15,9 @@
  **/
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 public class JWT {
     // Ref: https://tools.ietf.org/html/rfc7519

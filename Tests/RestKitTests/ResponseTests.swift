@@ -16,6 +16,9 @@
 
 import XCTest
 import RestKit
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 class ResponseTests: XCTestCase {
 

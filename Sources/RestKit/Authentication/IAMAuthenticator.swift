@@ -15,6 +15,9 @@
  **/
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /** Authenticate with an IAM API key. The API key is used to automatically retrieve and refresh access tokens. */
 public class IAMAuthenticator: TokenSourceAuthenticator {

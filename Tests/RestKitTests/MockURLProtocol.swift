@@ -16,6 +16,9 @@
 
 import Foundation
 import XCTest
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /**
  * MockURLProtocol from WWDC 2018 Session 417 Testing Tips & Tricks
