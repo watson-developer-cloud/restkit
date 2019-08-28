@@ -14,6 +14,7 @@
  * limitations under the License.
  **/
 
+#if os(Linux)
 import XCTest
 import RestKit
 
@@ -39,7 +40,7 @@ class ConfigBasedAuthenticatorFactoryTests: XCTestCase {
         ("testGetIAMAuthFromVcapServices", testGetIAMAuthFromVcapServices),
         ("testAllAuthsThrowErrorIfRequiredVariableMissing", testAllAuthsThrowErrorIfRequiredVariableMissing),
         ("testAllAuthsThrowErrorIfAuthTypeUndefined", testAllAuthsThrowErrorIfAuthTypeUndefined),
-        ("testAllAuthsThrowErrorIfUnrecognizedAuthType", testAllAuthsThrowErrorIfUnrecognizedAuthType)
+        ("testAllAuthsThrowErrorIfUnrecognizedAuthType", testAllAuthsThrowErrorIfUnrecognizedAuthType),
     ]
 
     let workingDirectory = FileManager.default.currentDirectoryPath + "/ibm-credentials.env"
@@ -444,7 +445,6 @@ class ConfigBasedAuthenticatorFactoryTests: XCTestCase {
         }
     }
 
-
     // MARK: VCAP_SERVICES defined auth
 
     func testGetBasicAuthFromVcapServices() {
@@ -666,3 +666,4 @@ class ConfigBasedAuthenticatorFactoryTests: XCTestCase {
         deleteMockFile(path: workingDirectory)
     }
 }
+#endif

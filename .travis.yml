@@ -4,11 +4,27 @@ osx_image: xcode10.1
 jobs:
   include:
     - stage: Run tests
-      script: ./Scripts/travis/test-Linux.sh
+      script: ./Scripts/travis/test-Linux.sh "swift-4.1"
       os: linux
       dist: xenial
+    - os: linux
+      dist: xenial
+      script: ./Scripts/travis/test-Linux.sh "swift-4.2"
+    - os: linux
+      dist: xenial
+      script: ./Scripts/travis/test-Linux.sh "swift-5.0"
+    - os: linux
+      dist: xenial
+      script: ./Scripts/travis/test-swift-5.1-Linux.sh
     - os: osx
       script: ./Scripts/travis/test-macOS.sh
+      osx_image: xcode10.2
+    - os: osx
+      script: ./Scripts/travis/test-macOS.sh
+      osx_image: xcode10.3
+    - os: osx
+      script: ./Scripts/travis/test-macOS.sh
+      osx_image: xcode11
     - stage: release new version
       script: ./Scripts/travis/new-release.sh
       os: osx

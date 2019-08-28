@@ -17,11 +17,11 @@
 import Foundation
 
 public struct Helpers {
-    static func extractEnvironmentVariablesFromFile(environmentVariablePrefix: String, file: URL) -> [String : String]? {
+    static func extractEnvironmentVariablesFromFile(environmentVariablePrefix: String, file: URL) -> [String: String]? {
         guard let fileLines = try? String(contentsOf: file).components(separatedBy: .newlines) else {
             return nil
         }
-        
+
         // Turn each credential into a key/value pair
         let serviceCredentials = fileLines
             .filter { $0.lowercased().starts(with: environmentVariablePrefix.lowercased()) }
@@ -31,7 +31,7 @@ public struct Helpers {
                 let removalIndex = lowerCaseKey.index(lowerCaseKey.startIndex, offsetBy: environmentVariablePrefix.count + 1)
                 let key = String(lowerCaseKey[removalIndex...])
                 let value = String(credentials[1])
-                
+
                 return result.merging([key: value]) { (_, new) in new }
         }
         return serviceCredentials
