@@ -162,7 +162,7 @@ class AuthenticationUnitTests: XCTestCase {
             // Verify fields in token request
             XCTAssertNotNil(request.allHTTPHeaderFields)
             XCTAssertEqual(request.allHTTPHeaderFields!["x-special-header"], "special value")
-            XCTAssertEqual(request.allHTTPHeaderFields!["Authorization"],"Basic Y2xpZW50SUQ6Y2xpZW50U2VjcmV0")
+            XCTAssertEqual(request.allHTTPHeaderFields!["Authorization"], "Basic Y2xpZW50SUQ6Y2xpZW50U2VjcmV0")
 
             // Setup mock result
             let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
@@ -235,7 +235,7 @@ class AuthenticationUnitTests: XCTestCase {
             // Verify fields in token request
             XCTAssertNotNil(request.allHTTPHeaderFields)
             XCTAssertEqual(request.allHTTPHeaderFields!["x-special-header"], "special value")
- 
+
             // Setup mock result
             let response = HTTPURLResponse(url: request.url!, statusCode: 200, httpVersion: nil, headerFields: nil)!
              let data = "{ \"accessToken\": \"\(newToken)\" }".data(using: .utf8)
