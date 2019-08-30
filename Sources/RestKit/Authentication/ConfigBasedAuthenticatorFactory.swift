@@ -34,15 +34,6 @@ public enum EnvironmentAuthenticatorType: String {
     case bearerToken = "bearerToken"
 }
 
-public enum EnvironmentAuthenticatorVariable: String {
-    case authType = "auth_type"
-    case username = "username"
-    case password = "password"
-    case apiKey = "apikey"
-    case bearerToken = "bearer_token"
-    case url = "url"
-}
-
 @available (iOS, unavailable, message: "ConfigBasedAuthenticatorFactory is currently available on Linux only.")
 @available (tvOS, unavailable, message: "ConfigBasedAuthenticatorFactory is currently available on Linux only.")
 @available (iOSMac, unavailable, message: "ConfigBasedAuthenticatorFactory is currently available on Linux only.")
@@ -50,7 +41,7 @@ public enum EnvironmentAuthenticatorVariable: String {
 public struct ConfigBasedAuthenticatorFactory {
     @available(iOS 9.0, *)
     static public func getAuthenticator(credentialPrefix: String) throws -> Authenticator {
-        guard let environmentVariables = ConfigBasedAuthenticatorFactory.getEnvironmentVariables(credentialPrefix: credentialPrefix) else {
+        guard let environmentVariables = CredentialUtils.getEnvironmentVariables(credentialPrefix: credentialPrefix) else {
            throw AuthenticatorError.noConfigurationFound
        }
 
@@ -63,84 +54,6 @@ public struct ConfigBasedAuthenticatorFactory {
 
         let authenticator = try ConfigBasedAuthenticatorFactory.buildAuthenticator(authenticatorType: authenticatorType, credentials: environmentVariables)
         return authenticator
-    }
-
-    static private func readEnvironmentFile(filePath: URL, credentialPrefix: String) -> [String: String]? {
-        let environmentVariables: [String: String]? = Helpers.extractEnvironmentVariablesFromFile(environmentVariablePrefix: credentialPrefix, file: filePath)
-        return environmentVariables
-    }
-
-    static private func readVCAPServicesVariables(credentialPrefix: String) -> [String: String]? {
-        guard let vcapServicesEnvironmentVariable = ProcessInfo.processInfo.environment["VCAP_SERVICES"] else {
-            return nil
-        }
-
-        let jsonData = try? JSONSerialization.jsonObject(with: vcapServicesEnvironmentVariable.data(using: .utf8)!, options: [])
-
-        guard let parsedJsonData = jsonData as? [String: Any] else {
-            return nil
-        }
-
-        if let selectedService = parsedJsonData[credentialPrefix] as? [Any] {
-            if let firstServiceObject = selectedService.first as? [String: Any] {
-                if let serviceCredentials = firstServiceObject["credentials"] as? [String: String] {
-                    guard let authType = inferAuthType(credentials: serviceCredentials) else {
-                        return nil
-                    }
-
-                    var updatedServiceCredentials = serviceCredentials
-                    updatedServiceCredentials["auth_type"] = authType
-                    return updatedServiceCredentials
-                }
-            }
-        }
-
-        return nil
-    }
-
-    static private func inferAuthType(credentials: [String: String]) -> String? {
-        if credentials["apikey"] != nil || credentials["iam_apikey"] != nil {
-            return EnvironmentAuthenticatorType.IAM.rawValue
-        }
-
-        if credentials["username"] != nil && credentials["password"] != nil {
-            return EnvironmentAuthenticatorType.basic.rawValue
-        }
-
-        return nil
-    }
-
-    @available(iOS 9.0, *)
-    static private func getEnvironmentVariables(credentialPrefix: String) -> [String: String]? {
-        // first attempt to read local .env file
-        let localEnvFile: URL = URL.init(fileURLWithPath: "ibm-credentials.env")
-        if let localEnvironmentVariables: [String: String] = ConfigBasedAuthenticatorFactory.readEnvironmentFile(filePath: localEnvFile, credentialPrefix: credentialPrefix) {
-            return localEnvironmentVariables
-        }
-
-        // look in user defined filepath for .env file
-        if let userDefinedEnvFileName: String = ProcessInfo.processInfo.environment["IBM_CREDENTIALS_FILE"] {
-            if FileManager.default.fileExists(atPath: userDefinedEnvFileName) && FileManager.default.isReadableFile(atPath: userDefinedEnvFileName) {
-                let userDefinedEnvFile: URL = URL.init(fileURLWithPath: userDefinedEnvFileName)
-                if let userSpecifiedEnvironmentVariables: [String: String] = ConfigBasedAuthenticatorFactory.readEnvironmentFile(filePath: userDefinedEnvFile, credentialPrefix: credentialPrefix) {
-                    return userSpecifiedEnvironmentVariables
-                }
-            }
-        }
-
-        // look in the home directory for .env file
-        let homeDirectory: URL = FileManager.default.homeDirectoryForCurrentUser
-        let homeDirectoryEnvFile: URL = URL.init(fileURLWithPath: "ibm-credentials.env", relativeTo: homeDirectory)
-        if let homeDirectoryEnvironmentVariables: [String: String] = ConfigBasedAuthenticatorFactory.readEnvironmentFile(filePath: homeDirectoryEnvFile, credentialPrefix: credentialPrefix) {
-            return homeDirectoryEnvironmentVariables
-        }
-
-        // look in VCAP_SERVICES (only available in CF environment)
-        if let vcapServicesEnvironmentVariables: [String: String] = ConfigBasedAuthenticatorFactory.readVCAPServicesVariables(credentialPrefix: credentialPrefix) {
-            return vcapServicesEnvironmentVariables
-        }
-
-        return nil
     }
 
     static private func buildAuthenticator(authenticatorType: EnvironmentAuthenticatorType, credentials: [String: String]) throws -> Authenticator {

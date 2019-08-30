@@ -62,7 +62,7 @@ class ConfigBasedAuthenticatorFactoryTests: XCTestCase {
     let mockCP4DAuthEnv: Data? = """
     SERVICE_1_USERNAME=cp4d
     SERVICE_1_PASSWORD=hunter2
-    SERVICE_1_URL=https://asdf.com
+    SERVICE_1_AUTH_URL=https://asdf.com
     SERVICE_1_AUTH_TYPE=cp4d
     """.data(using: .utf8)
 
@@ -500,7 +500,7 @@ class ConfigBasedAuthenticatorFactoryTests: XCTestCase {
 
         let mockMalFormedCP4DEnv: Data? = """
         SERVICE_1_PASSWORD=hunter2
-        SERVICE_1_URL=https://asdf.com
+        SERVICE_1_AUTH_URL=https://asdf.com
         SERVICE_1_AUTH_TYPE=cp4d
         """.data(using: .utf8)
 
@@ -586,7 +586,7 @@ class ConfigBasedAuthenticatorFactoryTests: XCTestCase {
         let mockMalFormedCP4DEnv: Data? = """
         SERVICE_1_USERNAME=cp4d
         SERVICE_1_PASSWORD=hunter2
-        SERVICE_1_URL=https://asdf.com
+        SERVICE_1_AUTH_URL=https://asdf.com
         SERVICE_1_AUTH_TYPE=badnews
         """.data(using: .utf8)
 
