@@ -21,10 +21,10 @@ import PackageDescription
 let package = Package(
     name: "IBMWatsonRestKit",
     products: [
-        .library(name: "RestKit", targets: ["RestKit"])
+        .library(name: "RestKit", targets: ["RestKit"]),
     ],
     targets: [
         .target(name: "RestKit", dependencies: []),
-        .testTarget(name: "RestKitTests", dependencies: ["RestKit"])
+        .testTarget(name: "RestKitTests", dependencies: ["RestKit"]),
     ]
 )
