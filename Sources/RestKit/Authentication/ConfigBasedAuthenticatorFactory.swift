@@ -39,7 +39,6 @@ public enum EnvironmentAuthenticatorType: String {
 @available (iOSMac, unavailable, message: "ConfigBasedAuthenticatorFactory is currently available on Linux only.")
 @available (watchOS, unavailable, message: "ConfigBasedAuthenticatorFactory is currently available on Linux only.")
 public struct ConfigBasedAuthenticatorFactory {
-    @available(iOS 9.0, *)
     static public func getAuthenticator(credentialPrefix: String) throws -> Authenticator {
         guard let environmentVariables = CredentialUtils.getEnvironmentVariables(credentialPrefix: credentialPrefix) else {
            throw AuthenticatorError.noConfigurationFound
