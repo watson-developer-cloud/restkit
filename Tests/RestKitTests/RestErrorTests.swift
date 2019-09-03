@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2018
+ * (C) Copyright IBM Corp. 2018, 2019.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ class RestErrorTests: XCTestCase {
         let testMetadata: [String: Any] = [
             "key0": 42,
             "key1": true,
-            "key2": "value"
+            "key2": "value",
         ]
         let httpError = RestError.http(statusCode: testStatusCode, message: nil, metadata: testMetadata)
 

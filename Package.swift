@@ -1,7 +1,7 @@
 // swift-tools-version:4.0
 
 /**
- * Copyright IBM Corporation 2016, 2018
+ * (C) Copyright IBM Corp. 2016, 2019.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,10 +21,10 @@ import PackageDescription
 let package = Package(
     name: "IBMWatsonRestKit",
     products: [
-        .library(name: "RestKit", targets: ["RestKit"])
+        .library(name: "RestKit", targets: ["RestKit"]),
     ],
     targets: [
         .target(name: "RestKit", dependencies: []),
-        .testTarget(name: "RestKitTests", dependencies: ["RestKit"])
+        .testTarget(name: "RestKitTests", dependencies: ["RestKit"]),
     ]
 )

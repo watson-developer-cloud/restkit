@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2018
+ * (C) Copyright IBM Corp. 2018, 2019.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ class MultiPartFormDataTests: XCTestCase {
         ("testFormDataFromURL", testFormDataFromURL),
         ("testFormDataWithInvalidURL", testFormDataWithInvalidURL),
     ]
-    
+
     func loadResource(name: String, ext: String) -> URL {
         #if os(Linux)
         return URL(fileURLWithPath: "Tests/Resources/" + name + "." + ext)

@@ -15,6 +15,9 @@
  **/
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /**
  An `Authenticator` adds authentication to a `RestRequest`.

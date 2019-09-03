@@ -18,6 +18,9 @@
 
 import XCTest
 import RestKit
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 class AuthenticationTests: XCTestCase {
 
@@ -71,7 +74,7 @@ class AuthenticationTests: XCTestCase {
 
         #if !os(Linux)
         // Verify that SSL verification can be disabled
-        iam.disableSSLVerification();
+        iam.disableSSLVerification()
         #endif
 
         // Verify that clientID and clientSecret can be set
@@ -88,7 +91,7 @@ class AuthenticationTests: XCTestCase {
 
         #if !os(Linux)
         // Verify that SSL verification can be disabled
-        cp4d.disableSSLVerification();
+        cp4d.disableSSLVerification()
         #endif
     }
 

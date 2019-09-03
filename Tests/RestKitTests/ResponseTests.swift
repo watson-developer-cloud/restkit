@@ -16,6 +16,9 @@
 
 import XCTest
 import RestKit
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 class ResponseTests: XCTestCase {
 
@@ -60,7 +63,7 @@ class ResponseTests: XCTestCase {
         )
 
         let expectation = self.expectation(description: #function)
-        request.responseObject { (response: RestResponse<Document>?, error: RestError?) in
+        request.responseObject { (_: RestResponse<Document>?, error: RestError?) in
             guard let error = error else {
                 XCTFail("Expected error not received")
                 return
@@ -91,7 +94,7 @@ class ResponseTests: XCTestCase {
         )
 
         let expectation = self.expectation(description: #function)
-        request.responseObject { (response: RestResponse<Document>?, error: RestError?) in
+        request.responseObject { (_: RestResponse<Document>?, error: RestError?) in
             guard let error = error else {
                 XCTFail("Expected error not received")
                 return
@@ -122,7 +125,7 @@ class ResponseTests: XCTestCase {
         )
 
         let expectation = self.expectation(description: #function)
-        request.responseObject { (response: RestResponse<Document>?, error: RestError?) in
+        request.responseObject { (_: RestResponse<Document>?, error: RestError?) in
             guard let error = error else {
                 XCTFail("Expected error not received")
                 return
@@ -153,7 +156,7 @@ class ResponseTests: XCTestCase {
         )
 
         let expectation = self.expectation(description: #function)
-        request.responseObject { (response: RestResponse<Document>?, error: RestError?) in
+        request.responseObject { (_: RestResponse<Document>?, error: RestError?) in
             guard let error = error else {
                 XCTFail("Expected error not received")
                 return
@@ -208,7 +211,7 @@ class ResponseTests: XCTestCase {
         )
 
         let expectation = self.expectation(description: #function)
-        request.responseObject { (response: RestResponse<Document>?, error: RestError?) in
+        request.responseObject { (_: RestResponse<Document>?, error: RestError?) in
             guard case .some(.badURL) = error else {
                 XCTFail("Expected error not received")
                 return
@@ -237,7 +240,7 @@ class ResponseTests: XCTestCase {
         )
 
         let expectation = self.expectation(description: #function)
-        request.responseObject { (response: RestResponse<Document>?, error: RestError?) in
+        request.responseObject { (_: RestResponse<Document>?, error: RestError?) in
             XCTAssertNotNil(error)
             XCTAssertEqual("Provided API key could not be found", error?.localizedDescription)
             expectation.fulfill()
@@ -247,13 +250,13 @@ class ResponseTests: XCTestCase {
 
     // MARK: - Helpers
 
-    class Document : Codable {
+    class Document: Codable {
         let id: String
         let name: String?
         let status: DocumentStatus?
     }
 
-    class DocumentStatus : Codable {
+    class DocumentStatus: Codable {
         let created: Date?
         let updated: Date?
     }

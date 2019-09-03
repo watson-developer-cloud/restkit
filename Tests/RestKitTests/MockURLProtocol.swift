@@ -1,5 +1,5 @@
 /**
- * Copyright IBM Corporation 2018
+ * (C) Copyright IBM Corp. 2018, 2019.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,9 @@
 
 import Foundation
 import XCTest
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /**
  * MockURLProtocol from WWDC 2018 Session 417 Testing Tips & Tricks
