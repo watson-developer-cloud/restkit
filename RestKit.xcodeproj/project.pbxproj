@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7E17AC0323143722005E538D /* ConfigBasedAuthenticatorFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E17AC0223143722005E538D /* ConfigBasedAuthenticatorFactory.swift */; };
+		7E434F8D232983FF00801042 /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E434F8C232983FF00801042 /* BaseService.swift */; };
 		7EB22AFC23181A4B000EB0E0 /* MultiPartFormDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA542768215558740035F8B6 /* MultiPartFormDataTests.swift */; };
 		7EB22AFE23181B0E000EB0E0 /* ConfigBasedAuthenticatorFactoryTests-Linux.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB22AFD23181B0E000EB0E0 /* ConfigBasedAuthenticatorFactoryTests-Linux.swift */; };
 		7EC735D22319AD3C00A73810 /* CredentialUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EC735D12319AD3C00A73810 /* CredentialUtils.swift */; };
@@ -47,6 +48,7 @@
 
 /* Begin PBXFileReference section */
 		7E17AC0223143722005E538D /* ConfigBasedAuthenticatorFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConfigBasedAuthenticatorFactory.swift; path = Sources/RestKit/Authentication/ConfigBasedAuthenticatorFactory.swift; sourceTree = SOURCE_ROOT; };
+		7E434F8C232983FF00801042 /* BaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BaseService.swift; path = RestKit/BaseService.swift; sourceTree = "<group>"; };
 		7EB22AFD23181B0E000EB0E0 /* ConfigBasedAuthenticatorFactoryTests-Linux.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConfigBasedAuthenticatorFactoryTests-Linux.swift"; path = "RestKitTests/ConfigBasedAuthenticatorFactoryTests-Linux.swift"; sourceTree = "<group>"; };
 		7EC735D12319AD3C00A73810 /* CredentialUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CredentialUtils.swift; path = Sources/RestKit/CredentialUtils.swift; sourceTree = SOURCE_ROOT; };
 		7EC735D32319AD5300A73810 /* CredentialUtilsTests-Linux.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CredentialUtilsTests-Linux.swift"; path = "RestKitTests/CredentialUtilsTests-Linux.swift"; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				92048D85212F5BEE004FD822 /* RestError.swift */,
 				92048D81212F5BEE004FD822 /* RestRequest.swift */,
 				92BF69BB213F4BD800FE6325 /* RestResponse.swift */,
+				7E434F8C232983FF00801042 /* BaseService.swift */,
 				92048D60212F4B1F004FD822 /* Supporting Files */,
 			);
 			path = Sources;
@@ -328,6 +331,7 @@
 				92048D8E212F5BEE004FD822 /* JSON.swift in Sources */,
 				92BF69BC213F4BD800FE6325 /* RestResponse.swift in Sources */,
 				CAC2201A22B82AA200179A9E /* JWT.swift in Sources */,
+				7E434F8D232983FF00801042 /* BaseService.swift in Sources */,
 				CAC2201C22B82FD700179A9E /* InsecureConnection.swift in Sources */,
 				92048D8C212F5BEE004FD822 /* RestError.swift in Sources */,
 				92048D89212F5BEE004FD822 /* MultipartFormData.swift in Sources */,
