@@ -41,6 +41,7 @@ class ConfigBasedAuthenticatorFactoryTests: XCTestCase {
         ("testAllAuthsThrowErrorIfRequiredVariableMissing", testAllAuthsThrowErrorIfRequiredVariableMissing),
         ("testAuthTypeDefaultsToIAM", testAuthTypeDefaultsToIAM),
         ("testAllAuthsThrowErrorIfUnrecognizedAuthType", testAllAuthsThrowErrorIfUnrecognizedAuthType),
+        ("testCaseInsensitivityOfAuthType", testCaseInsensitivityOfAuthType),
     ]
 
     let workingDirectory = FileManager.default.currentDirectoryPath + "/ibm-credentials.env"
@@ -630,6 +631,130 @@ class ConfigBasedAuthenticatorFactoryTests: XCTestCase {
         XCTAssertThrowsError(try ConfigBasedAuthenticatorFactory.getAuthenticator(credentialPrefix: "SERVICE_1"))
 
         deleteMockFile(path: workingDirectory)
+    }
+    
+    func testCaseInsensitivityOfAuthType() {
+        let mockBasicCaseInsensitiveAuthEnv: Data? = """
+        SERVICE_1_USERNAME=asdf
+        SERVICE_1_PASSWORD=hunter2
+        SERVICE_1_AUTH_TYPE=bAsIc
+        """.data(using: .utf8)
+        
+        if FileManager.default.createFile(atPath: workingDirectory, contents: mockBasicCaseInsensitiveAuthEnv) == false {
+            XCTFail("Failed to create mock local .env file")
+        }
+        
+        do {
+            let authenticator: Authenticator = try ConfigBasedAuthenticatorFactory.getAuthenticator(credentialPrefix: "SERVICE_1")
+            XCTAssert(authenticator is BasicAuthenticator)
+        } catch AuthenticatorError.noConfigurationFound {
+            XCTFail("No configuration file found")
+        } catch AuthenticatorError.authenticationTypeNotDefined {
+            XCTFail("auth type is not defined")
+        } catch AuthenticatorError.authenticationTypeNotRecognized {
+            XCTFail("auth type not recognized")
+        } catch AuthenticatorError.missingEnvironmentVariable(let missingVariable) {
+            XCTFail("missing required environment variable \(missingVariable)")
+        } catch {
+            XCTFail("Unknown error")
+        }
+        
+        let mockIAMCaseInsensitiveAuthEnv: Data? = """
+        SERVICE_1_APIKEY=asdf
+        SERVICE_1_AUTH_TYPE=iAm
+        """.data(using: .utf8)
+        
+        if FileManager.default.createFile(atPath: workingDirectory, contents: mockIAMCaseInsensitiveAuthEnv) == false {
+            XCTFail("Failed to create mock local .env file")
+        }
+        
+        do {
+            let authenticator: Authenticator = try ConfigBasedAuthenticatorFactory.getAuthenticator(credentialPrefix: "SERVICE_1")
+            XCTAssert(authenticator is IAMAuthenticator)
+        } catch AuthenticatorError.noConfigurationFound {
+            XCTFail("No configuration file found")
+        } catch AuthenticatorError.authenticationTypeNotDefined {
+            XCTFail("auth type is not defined")
+        } catch AuthenticatorError.authenticationTypeNotRecognized {
+            XCTFail("auth type not recognized")
+        } catch AuthenticatorError.missingEnvironmentVariable(let missingVariable) {
+            XCTFail("missing required environment variable \(missingVariable)")
+        } catch {
+            XCTFail("Unknown error")
+        }
+        
+        let mockCP4DCaseInsensitiveAuthEnv: Data? = """
+        SERVICE_1_USERNAME=cp4d
+        SERVICE_1_PASSWORD=hunter2
+        SERVICE_1_AUTH_URL=https://asdf.com
+        SERVICE_1_AUTH_TYPE=cP4D
+        """.data(using: .utf8)
+        
+        if FileManager.default.createFile(atPath: workingDirectory, contents: mockCP4DCaseInsensitiveAuthEnv) == false {
+            XCTFail("Failed to create mock local .env file")
+        }
+        
+        do {
+            let authenticator: Authenticator = try ConfigBasedAuthenticatorFactory.getAuthenticator(credentialPrefix: "SERVICE_1")
+            XCTAssert(authenticator is CloudPakForDataAuthenticator)
+        } catch AuthenticatorError.noConfigurationFound {
+            XCTFail("No configuration file found")
+        } catch AuthenticatorError.authenticationTypeNotDefined {
+            XCTFail("auth type is not defined")
+        } catch AuthenticatorError.authenticationTypeNotRecognized {
+            XCTFail("auth type not recognized")
+        } catch AuthenticatorError.missingEnvironmentVariable(let missingVariable) {
+            XCTFail("missing required environment variable \(missingVariable)")
+        } catch {
+            XCTFail("Unknown error")
+        }
+        
+        let mockBearerTokenCaseInsensitiveAuthEnv: Data? = """
+        SERVICE_1_BEARER_TOKEN=c4dasd432asdj3
+        SERVICE_1_AUTH_TYPE=bearerToken
+        """.data(using: .utf8)
+        
+        if FileManager.default.createFile(atPath: workingDirectory, contents: mockBearerTokenCaseInsensitiveAuthEnv) == false {
+            XCTFail("Failed to create mock local .env file")
+        }
+        
+        do {
+            let authenticator: Authenticator = try ConfigBasedAuthenticatorFactory.getAuthenticator(credentialPrefix: "SERVICE_1")
+            XCTAssert(authenticator is BearerTokenAuthenticator)
+        } catch AuthenticatorError.noConfigurationFound {
+            XCTFail("No configuration file found")
+        } catch AuthenticatorError.authenticationTypeNotDefined {
+            XCTFail("auth type is not defined")
+        } catch AuthenticatorError.authenticationTypeNotRecognized {
+            XCTFail("auth type not recognized")
+        } catch AuthenticatorError.missingEnvironmentVariable(let missingVariable) {
+            XCTFail("missing required environment variable \(missingVariable)")
+        } catch {
+            XCTFail("Unknown error")
+        }
+        
+        let mockNoCaseInsensitiveAuthEnv: Data? = """
+        SERVICE_1_AUTH_TYPE=nOaUtH
+        """.data(using: .utf8)
+        
+        if FileManager.default.createFile(atPath: workingDirectory, contents: mockNoCaseInsensitiveAuthEnv) == false {
+            XCTFail("Failed to create mock local .env file")
+        }
+        
+        do {
+            let authenticator: Authenticator = try ConfigBasedAuthenticatorFactory.getAuthenticator(credentialPrefix: "SERVICE_1")
+            XCTAssert(authenticator is NoAuthAuthenticator)
+        } catch AuthenticatorError.noConfigurationFound {
+            XCTFail("No configuration file found")
+        } catch AuthenticatorError.authenticationTypeNotDefined {
+            XCTFail("auth type is not defined")
+        } catch AuthenticatorError.authenticationTypeNotRecognized {
+            XCTFail("auth type not recognized")
+        } catch AuthenticatorError.missingEnvironmentVariable(let missingVariable) {
+            XCTFail("missing required environment variable \(missingVariable)")
+        } catch {
+            XCTFail("Unknown error")
+        }
     }
 }
 #endif
