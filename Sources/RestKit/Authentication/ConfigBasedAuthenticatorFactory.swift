@@ -31,7 +31,7 @@ public enum EnvironmentAuthenticatorType: String {
     case basic = "basic"
     case CP4D = "cp4d"
     case noAuth = "noauth"
-    case bearerToken = "bearerToken"
+    case bearerToken = "bearertoken"
 }
 
 @available (iOS, unavailable, message: "ConfigBasedAuthenticatorFactory is currently available on Linux only.")
@@ -47,7 +47,7 @@ public struct ConfigBasedAuthenticatorFactory {
         let authTypeEnvironmentVariable = environmentVariables[EnvironmentAuthenticatorVariable.authType.rawValue]
             ?? EnvironmentAuthenticatorType.IAM.rawValue
 
-        guard let authenticatorType = EnvironmentAuthenticatorType(rawValue: authTypeEnvironmentVariable) else {
+        guard let authenticatorType = EnvironmentAuthenticatorType(rawValue: authTypeEnvironmentVariable.lowercased()) else {
             throw AuthenticatorError.authenticationTypeNotRecognized
         }
 
