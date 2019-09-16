@@ -49,17 +49,17 @@ public struct CredentialUtils {
             }
         }
 
+        // look in the current working directory for a .env file
+        let localEnvFile: URL = URL.init(fileURLWithPath: "ibm-credentials.env")
+        if let localEnvironmentVariables: [String: String] = CredentialUtils.readEnvironmentFile(filePath: localEnvFile, credentialPrefix: formattedCredentialPrefix) {
+            return localEnvironmentVariables
+        }
+
         // look in the home directory for .env file
         let homeDirectory: URL = FileManager.default.homeDirectoryForCurrentUser
         let homeDirectoryEnvFile: URL = URL.init(fileURLWithPath: "ibm-credentials.env", relativeTo: homeDirectory)
         if let homeDirectoryEnvironmentVariables: [String: String] = CredentialUtils.readEnvironmentFile(filePath: homeDirectoryEnvFile, credentialPrefix: formattedCredentialPrefix) {
             return homeDirectoryEnvironmentVariables
-        }
-
-        // look in the current working directory for a .env file
-        let localEnvFile: URL = URL.init(fileURLWithPath: "ibm-credentials.env")
-        if let localEnvironmentVariables: [String: String] = CredentialUtils.readEnvironmentFile(filePath: localEnvFile, credentialPrefix: formattedCredentialPrefix) {
-            return localEnvironmentVariables
         }
 
         // look in VCAP_SERVICES (only available in CF environment)
